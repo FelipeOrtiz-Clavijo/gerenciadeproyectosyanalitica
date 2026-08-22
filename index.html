@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrega Final — Guía completa | Gerencia de Proyectos y Analítica</title>
+<style>
+  :root{
+    --navy:#0E2841; --orange:#E97132; --blue:#156082; --green:#1E6B3A; --red:#B23A48; --purple:#5A3E85;
+    --ink:#22303F; --muted:#5A6472; --line:#E4E9EF; --bg:#FFFFFF; --soft:#F4F6F9; --soft2:#EEF2F6;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--blue);text-decoration:none}
+  h1,h2,h3{line-height:1.25;color:var(--navy)}
+  header.top{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;padding:12px 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+  header.top .brand{display:flex;flex-direction:column}
+  header.top .brand b{font-size:15px;letter-spacing:.3px}
+  header.top .brand span{font-size:11.5px;color:#CADCFC;letter-spacing:1.5px;text-transform:uppercase}
+  header.top .actions{display:flex;gap:10px;align-items:center}
+  .btn{background:var(--orange);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.35)}
+  .menu-toggle{display:none;background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:8px;padding:6px 10px;font-size:18px;cursor:pointer}
+  .wrap{display:grid;grid-template-columns:288px 1fr;max-width:1200px;margin:0 auto}
+  nav.side{position:sticky;top:57px;align-self:start;height:calc(100vh - 57px);overflow-y:auto;padding:18px 14px 40px;border-right:1px solid var(--line);background:#fff}
+  nav.side .grp{font-size:10.5px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin:16px 10px 5px;font-weight:700}
+  nav.side a{display:block;padding:6px 12px;border-radius:8px;color:var(--ink);font-size:13px;margin-bottom:1px;border-left:3px solid transparent}
+  nav.side a:hover{background:var(--soft)}
+  nav.side a.active{background:var(--soft2);border-left-color:var(--orange);color:var(--navy);font-weight:600}
+  main{padding:32px 44px 90px;min-width:0}
+  section{scroll-margin-top:72px;margin-bottom:44px}
+  .kicker{color:var(--orange);font-weight:700;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin:0 0 4px}
+  h2.sec{font-size:25px;margin:2px 0 14px;padding-bottom:10px;border-bottom:3px solid var(--orange)}
+  h3{font-size:17.5px;margin:22px 0 8px;color:var(--blue)}
+  h4{margin:0 0 8px;color:var(--navy);font-size:15px}
+  p{margin:0 0 12px}
+  ul,ol{margin:0 0 14px;padding-left:22px} li{margin-bottom:6px}
+  .hero{background:linear-gradient(135deg,#0E2841 0%,#173a5e 100%);color:#fff;border-radius:16px;padding:30px 32px;margin-bottom:24px}
+  .hero h1{color:#fff;font-size:30px;margin:0 0 6px}
+  .hero p.lead{color:#DCE7F5;font-size:16px;margin:0 0 18px;max-width:72ch}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:5px 12px;font-size:12.5px;color:#fff}
+  .chip b{color:var(--orange)}
+  .onesent{background:#fff;border:1px solid var(--line);border-left:5px solid var(--orange);border-radius:12px;padding:16px 20px;margin:0 0 8px;font-size:16px}
+  .onesent b{color:var(--navy)}
+  .box{border-radius:12px;padding:15px 18px;margin:14px 0;border:1px solid var(--line);background:var(--soft)}
+  .box .t{font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  .box.write{border-left:5px solid var(--blue)} .box.write .t{color:var(--blue)}
+  .box.example{border-left:5px solid var(--orange);background:#FDF4EE} .box.example .t{color:var(--orange)}
+  .box.tip{border-left:5px solid var(--green);background:#EFF6F1} .box.tip .t{color:var(--green)}
+  .box.warn{border-left:5px solid var(--red);background:#FBEFF1} .box.warn .t{color:var(--red)}
+  .box p:last-child{margin-bottom:0} .box ul:last-child,.box ol:last-child{margin-bottom:0}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:10px 0 4px}
+  .step{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;position:relative}
+  .step .n{width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px;margin-bottom:8px}
+  .step:nth-child(even) .n{background:var(--orange)}
+  .step b{display:block;color:var(--navy);font-size:14px;margin-bottom:3px} .step span{font-size:12.5px;color:var(--muted)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px}
+  th{background:var(--navy);color:#fff;text-align:left;padding:9px 12px;font-weight:600}
+  td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:nth-child(even) td{background:var(--soft)}
+  td.pct{font-weight:700;color:var(--navy);white-space:nowrap;text-align:center}
+  .total td{background:#fff;font-weight:700;color:var(--navy);border-top:2px solid var(--navy)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:#fff}
+  .card.accent{border-left:4px solid var(--orange)}
+  .pill{display:inline-block;background:var(--soft2);border-radius:6px;padding:2px 8px;font-size:12px;color:var(--navy);font-weight:600;margin:0 4px 4px 0}
+  .chain{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0 14px}
+  .chain .c{background:var(--soft2);border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:12.5px;font-weight:600;color:var(--navy)}
+  .chain .c.hl{background:var(--navy);color:#fff}
+  .chain .arw{color:var(--orange);font-weight:700}
+  .check{list-style:none;padding-left:0}
+  .check li{padding-left:30px;position:relative;margin-bottom:8px}
+  .check li:before{content:"☐";position:absolute;left:0;top:-1px;color:var(--orange);font-size:18px}
+  code.prompt{display:block;background:#0E2841;color:#DCE7F5;padding:16px 18px;border-radius:10px;font-size:13px;line-height:1.5;white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;margin:10px 0}
+  .anchor-note{font-size:12.5px;color:var(--muted);font-style:italic}
+  footer{border-top:1px solid var(--line);padding:22px 44px;color:var(--muted);font-size:12.5px;max-width:1200px;margin:0 auto}
+  @media(max-width:900px){
+    .wrap{grid-template-columns:1fr}
+    nav.side{position:fixed;top:57px;left:0;width:84%;max-width:330px;height:calc(100vh - 57px);transform:translateX(-100%);transition:.25s;z-index:40;box-shadow:4px 0 20px rgba(0,0,0,.15)}
+    nav.side.open{transform:translateX(0)}
+    .menu-toggle{display:inline-block}
+    main{padding:22px 18px 70px}
+    .grid2{grid-template-columns:1fr}
+    .hero h1{font-size:23px}
+  }
+  @media print{
+    header.top,nav.side,.menu-toggle,.actions{display:none}
+    .wrap{grid-template-columns:1fr} section{page-break-inside:avoid}
+    .hero{background:var(--navy)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <button class="menu-toggle" onclick="document.querySelector('nav.side').classList.toggle('open')">☰</button>
+  <div class="brand"><b>Gerencia de Proyectos y Analítica</b><span>Entrega Final · Guía completa</span></div>
+  <div class="actions"><button class="btn ghost" onclick="window.print()">Imprimir / PDF</button></div>
+</header>
+
+<div class="wrap">
+  <nav class="side" id="side">
+    <div class="grp">Empezar</div>
+    <a href="#intro">En una frase</a>
+    <a href="#que">¿Qué es la entrega final?</a>
+    <a href="#mapa">Mapa de componentes</a>
+    <a href="#empezar">Cómo empezar</a>
+    <div class="grp">A · Fundamentos</div>
+    <a href="#conceptos">Proyecto, programa, portafolio</a>
+    <a href="#caract">Caracterización analítica</a>
+    <div class="grp">B · Definir el valor</div>
+    <a href="#pregunta">La pregunta analítica ★</a>
+    <a href="#caso">Caso de negocio y valor</a>
+    <div class="grp">C · Inicio y planeación</div>
+    <a href="#acta">Acta de constitución</a>
+    <a href="#interesados">Interesados y comunicación</a>
+    <a href="#edt">EDT / WBS</a>
+    <a href="#cronograma">Cronograma y ruta crítica</a>
+    <a href="#costos">Presupuesto y costos</a>
+    <a href="#equipo">Equipo, roles y RACI</a>
+    <div class="grp">D · Ejecución y control</div>
+    <a href="#riesgos">Gestión de riesgos</a>
+    <a href="#gobernanza">Gobernanza y calidad de datos</a>
+    <a href="#etica">Ética, privacidad y ley</a>
+    <a href="#mlops">Despliegue y MLOps</a>
+    <a href="#valor">Seguimiento y valor</a>
+    <div class="grp">E · Enfoque metodológico</div>
+    <a href="#marcos">Marcos y metodologías</a>
+    <a href="#recomendacion">Recomendación e integración</a>
+    <div class="grp">Cerrar</div>
+    <a href="#entregable">Estructura del entregable</a>
+    <a href="#app">El panorama: app con IA</a>
+    <a href="#checklist">Checklist final</a>
+  </nav>
+
+  <main>
+    <!-- INTRO -->
+    <section id="intro">
+      <div class="hero">
+        <h1>Entrega Final — Guía completa</h1>
+        <p class="lead">El expediente completo de tu proyecto de analítica: desde la pregunta que resuelve hasta cómo se gestiona, se despliega y genera valor. La Actividad 1 es su punto de partida.</p>
+        <div class="chips">
+          <span class="chip">Proyecto integrador</span>
+          <span class="chip">Individual o grupos de <b>máx. 4</b></span>
+          <span class="chip">Documento + <b>app HTML con IA</b></span>
+          <span class="chip">Caso guía: deserción estudiantil</span>
+        </div>
+      </div>
+      <div class="onesent">
+        <b>En una frase:</b> la entrega final es el <b>dossier de un producto de datos</b> — reúne la caracterización del proyecto (Actividad 1) y todos los componentes de gestión (acta, interesados, EDT, cronograma, costos, roles, riesgos, gobernanza, ética, despliegue y valor), y culmina en una app HTML que lo materializa.
+      </div>
+      <div class="box tip">
+        <div class="t"><span class="dot" style="background:var(--green)"></span>Cómo leer esta guía</div>
+        <p>Cada sección es un <b>componente que debe aparecer en tu entrega</b>. Para cada uno encontrarás: <b>qué es</b>, <b>qué incluir</b> y un <b>ejemplo</b> con el caso de deserción estudiantil. La sección marcada con ★ (la pregunta analítica) es el corazón del proyecto y va explicada en detalle.</p>
+      </div>
+    </section>
+
+    <!-- QUE -->
+    <section id="que">
+      <p class="kicker">Panorama</p>
+      <h2 class="sec">¿Qué es la entrega final?</h2>
+      <p>La Actividad 1 te pedía <b>caracterizar</b> un proyecto de analítica y proponer un enfoque de gestión. La entrega final va más allá: es el <b>documento completo del proyecto</b>, que toma esa base y le añade todos los elementos que un producto de datos necesita para ejecutarse y generar valor.</p>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><b>Actividad 1</b><span>Fundamentos + caracterización + enfoque metodológico.</span></div>
+        <div class="step"><div class="n">2</div><b>Componentes de gestión</b><span>Acta, interesados, EDT, cronograma, costos, roles, riesgos, gobernanza, ética.</span></div>
+        <div class="step"><div class="n">3</div><b>Valor y operación</b><span>Despliegue, MLOps, seguimiento y realización de valor.</span></div>
+        <div class="step"><div class="n">4</div><b>App con IA</b><span>Un prototipo HTML que materializa el proyecto.</span></div>
+      </div>
+      <div class="box write">
+        <div class="t"><span class="dot" style="background:var(--blue)"></span>La diferencia clave</div>
+        <p>Un <b>producto de datos</b> no termina con un modelo: es una capacidad que se planea, se gobierna, se despliega y se sostiene. La entrega final demuestra que sabes gestionar todo ese ciclo, no solo la parte técnica.</p>
+      </div>
+    </section>
+
+    <!-- MAPA -->
+    <section id="mapa">
+      <p class="kicker">Visión de conjunto</p>
+      <h2 class="sec">Mapa de componentes del producto de datos</h2>
+      <p>Estos son los bloques que componen la entrega. Se construyen en orden lógico: primero se define el valor, luego se planea, después se ejecuta y controla.</p>
+      <div class="grid2">
+        <div class="card"><h4>Definir el valor</h4><p style="margin:0"><span class="pill">Pregunta analítica</span><span class="pill">Caso de negocio (ROI)</span></p></div>
+        <div class="card"><h4>Inicio y planeación</h4><p style="margin:0"><span class="pill">Acta de constitución</span><span class="pill">Interesados</span><span class="pill">EDT</span><span class="pill">Cronograma</span><span class="pill">Costos</span><span class="pill">Equipo y RACI</span></p></div>
+        <div class="card"><h4>Ejecución y control</h4><p style="margin:0"><span class="pill">Riesgos</span><span class="pill">Gobernanza de datos</span><span class="pill">Ética y ley</span><span class="pill">Despliegue / MLOps</span><span class="pill">Seguimiento y valor</span></p></div>
+        <div class="card"><h4>Enfoque metodológico</h4><p style="margin:0"><span class="pill">Marcos (PMBOK/ISO/PRINCE2)</span><span class="pill">Ágil (Scrum/Kanban)</span><span class="pill">CRISP-DM / TDSP</span></p></div>
+      </div>
+    </section>
+
+    <!-- EMPEZAR -->
+    <section id="empezar">
+      <p class="kicker">Paso 0</p>
+      <h2 class="sec">Cómo empezar</h2>
+      <ul>
+        <li><b>Elige un proyecto</b> de analítica (real o hipotético) que conozcas o te interese. Ejemplos:
+          <span class="pill">deserción estudiantil</span><span class="pill">abandono de clientes</span><span class="pill">pronóstico de demanda</span><span class="pill">detección de fraude</span><span class="pill">optimización de inventarios</span><span class="pill">tablero de decisiones</span></li>
+        <li><b>Modalidad:</b> individual o grupos de máximo 4.</li>
+        <li><b>Producto:</b> el documento del proyecto y, como cierre, una app HTML generada con IA.</li>
+      </ul>
+      <div class="box tip">
+        <div class="t"><span class="dot" style="background:var(--green)"></span>Consejo</div>
+        <p>Mantén <b>un mismo proyecto</b> a lo largo de toda la entrega. Cada componente debe encajar con el anterior: la pregunta define el alcance, el alcance define la EDT, la EDT define el cronograma, etc.</p>
+      </div>
+    </section>
+
+    <!-- A · CONCEPTOS -->
+    <section id="conceptos">
+      <p class="kicker">A · Fundamentos</p>
+      <h2 class="sec">Proyecto, programa y portafolio</h2>
+      <p>Define con tus palabras y muestra que distingues los tres niveles.</p>
+      <table>
+        <tr><th>Concepto</th><th>Qué es</th></tr>
+        <tr><td><b>Proyecto</b></td><td>Esfuerzo temporal para crear un resultado único (2 rasgos: temporalidad y propósito específico).</td></tr>
+        <tr><td><b>Programa</b></td><td>Conjunto de proyectos relacionados que se gestionan juntos para lograr beneficios comunes.</td></tr>
+        <tr><td><b>Portafolio</b></td><td>Conjunto de programas y proyectos alineados con los objetivos estratégicos.</td></tr>
+      </table>
+      <div class="box example">
+        <div class="t"><span class="dot" style="background:var(--orange)"></span>Ejemplo (caso deserción)</div>
+        <p>El <b>portafolio</b> de transformación digital contiene el <b>programa</b> de analítica académica, que agrupa los <b>proyectos</b> “modelo de deserción”, “tablero de matrícula” y “chatbot de admisiones”.</p>
+      </div>
+    </section>
+
+    <!-- A · CARACTERIZACIÓN -->
+    <section id="caract">
+      <p class="kicker">A · Fundamentos</p>
+      <h2 class="sec">Caracterización del proyecto analítico</h2>
+      <p>Presenta tu proyecto (nombre, organización, problema, usuarios, resultado esperado) y demuestra por qué NO es un proyecto tradicional, refiriéndote a estos cinco rasgos:</p>
+      <table>
+        <tr><th>Rasgo</th><th>Qué explicar</th><th>Ejemplo (deserción)</th></tr>
+        <tr><td><b>Incertidumbre</b></td><td>Lo que no se puede saber al inicio.</td><td>No se sabe si los datos bastan ni si habrá patrones claros.</td></tr>
+        <tr><td><b>Exploración e iteración</b></td><td>Por qué habrá que probar y volver atrás.</td><td>Probar variables y modelos; regresar a preparar datos.</td></tr>
+        <tr><td><b>Dependencia de datos</b></td><td>Datos necesarios y sus dificultades.</td><td>Notas, asistencia, socioeconómicos; calidad y permisos.</td></tr>
+        <tr><td><b>Resultado probabilístico</b></td><td>Por qué no se garantiza.</td><td>El modelo da probabilidades, no certezas.</td></tr>
+        <tr><td><b>Generación de valor</b></td><td>Qué beneficio y cuándo se materializa.</td><td>Cuando Bienestar interviene con las alertas y baja la deserción.</td></tr>
+      </table>
+    </section>
+
+    <!-- B · PREGUNTA ANALÍTICA (EXPANDIDA) -->
+    <section id="pregunta">
+      <p class="kicker">B · Definir el valor · el corazón del proyecto</p>
+      <h2 class="sec">La pregunta analítica ★</h2>
+      <p>La pregunta analítica es <b>el puente entre el problema de negocio y los datos</b>. Es la brújula del proyecto: los datos, el modelo, la evaluación y el despliegue existen para responderla. Si está mal planteada, el proyecto entregará respuestas correctas… a la pregunta equivocada.</p>
+
+      <h3>1. De problema de negocio a pregunta analítica</h3>
+      <p>Nunca saltes directo a “hagamos un modelo”. Recorre esta cadena, porque cada eslabón condiciona al siguiente:</p>
+      <div class="chain">
+        <span class="c">Objetivo de negocio</span><span class="arw">→</span>
+        <span class="c">Decisión a apoyar</span><span class="arw">→</span>
+        <span class="c hl">Pregunta analítica</span><span class="arw">→</span>
+        <span class="c">Variable objetivo</span><span class="arw">→</span>
+        <span class="c">Uso de la respuesta</span>
+      </div>
+      <div class="box example">
+        <div class="t"><span class="dot" style="background:var(--orange)"></span>La cadena, aplicada (deserción)</div>
+        <table style="margin:2px 0">
+          <tr><th>Eslabón</th><th>En el caso</th></tr>
+          <tr><td><b>Objetivo de negocio</b></td><td>Reducir la deserción en primer año.</td></tr>
+          <tr><td><b>Decisión a apoyar</b></td><td>¿A qué estudiantes acompañar de forma prioritaria?</td></tr>
+          <tr><td><b>Pregunta analítica</b></td><td>¿Qué probabilidad de desertar tiene cada estudiante de primer año y qué factores la explican?</td></tr>
+          <tr><td><b>Variable objetivo</b></td><td>Deserta / no deserta al final del primer año.</td></tr>
+          <tr><td><b>Uso de la respuesta</b></td><td>Priorizar tutorías y alertas tempranas.</td></tr>
+        </table>
+      </div>
+
+      <h3>2. Cuatro tipos de pregunta analítica</h3>
+      <p>Identifica de qué tipo es la tuya (muchos proyectos combinan varias). El valor y la complejidad crecen de arriba hacia abajo.</p>
+      <table>
+        <tr><th>Tipo</th><th>Responde…</th><th>Ejemplo (deserción)</th></tr>
+        <tr><td><b>Descriptiva</b></td><td>¿Qué pasó?</td><td>Tasas de deserción por programa y periodo.</td></tr>
+        <tr><td><b>Diagnóstica</b></td><td>¿Por qué pasó?</td><td>Factores asociados a la deserción.</td></tr>
+        <tr><td><b>Predictiva</b></td><td>¿Qué pasará?</td><td>Probabilidad de que un estudiante deserte.</td></tr>
+        <tr><td><b>Prescriptiva</b></td><td>¿Qué debemos hacer?</td><td>Qué intervención maximiza la retención.</td></tr>
+      </table>
+
+      <h3>3. Criterios de una buena pregunta</h3>
+      <p>Antes de darla por buena, verifícala contra estos seis criterios:</p>
+      <table>
+        <tr><th>Criterio</th><th>Significa que…</th></tr>
+        <tr><td><b>Específica</b></td><td>Delimita población, periodo y resultado de interés.</td></tr>
+        <tr><td><b>Medible</b></td><td>Existe una variable objetivo clara y cuantificable.</td></tr>
+        <tr><td><b>Accionable</b></td><td>Su respuesta habilita una decisión concreta.</td></tr>
+        <tr><td><b>Factible con datos</b></td><td>Hay datos disponibles y de calidad suficiente.</td></tr>
+        <tr><td><b>Relevante</b></td><td>Conecta con un objetivo y un valor de negocio.</td></tr>
+        <tr><td><b>Ética y legal</b></td><td>Respeta la privacidad y evita sesgos discriminatorios.</td></tr>
+      </table>
+
+      <h3>4. Una plantilla para redactarla</h3>
+      <div class="box write">
+        <div class="t"><span class="dot" style="background:var(--blue)"></span>Fórmula</div>
+        <p>«¿<b>[qué queremos estimar o entender]</b> sobre <b>[qué población]</b> en <b>[qué periodo]</b>, para <b>[qué decisión]</b>?»</p>
+        <p style="margin-top:8px"><b>Aplicada:</b> «¿Qué <i>probabilidad de deserción</i> tiene <i>cada estudiante de primer año</i> de <i>las cohortes recientes</i>, para <i>priorizar el acompañamiento</i>?»</p>
+      </div>
+
+      <div class="box warn">
+        <div class="t"><span class="dot" style="background:var(--red)"></span>Errores comunes</div>
+        <ul>
+          <li><b>Demasiado amplia:</b> “¿cómo mejorar la universidad?” — no se puede responder con un modelo.</li>
+          <li><b>Sin datos:</b> pregunta que exige datos que no existen o no se pueden obtener.</li>
+          <li><b>Sin decisión:</b> un “insight interesante” que nadie va a usar.</li>
+          <li><b>Confundir la pregunta con la herramienta:</b> “¿cómo uso Power BI?” no es una pregunta analítica.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- B · CASO DE NEGOCIO -->
+    <section id="caso">
+      <p class="kicker">B · Definir el valor</p>
+      <h2 class="sec">Caso de negocio y valor</h2>
+      <p>Justifica por qué vale la pena el proyecto y estima el valor que generará. Incluye beneficios y un análisis financiero sencillo.</p>
+      <div class="grid2">
+        <div class="card"><h4>Qué incluir</h4>
+          <ul>
+            <li>Beneficios <b>tangibles</b> (ingresos, ahorros) e <b>intangibles</b> (misión, reputación).</li>
+            <li>Costos estimados (talento, nube, licencias, datos).</li>
+            <li>Indicadores: <b>ROI</b>, VPN, periodo de recuperación (payback).</li>
+          </ul>
+        </div>
+        <div class="card accent"><h4>Fórmulas útiles</h4>
+          <ul>
+            <li><b>ROI</b> = (beneficio neto ÷ costo) × 100</li>
+            <li><b>Payback</b> = inversión ÷ beneficio por periodo</li>
+            <li><b>VPN</b> = Σ flujoₜ ÷ (1+i)ᵗ − inversión</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box example">
+        <div class="t"><span class="dot" style="background:var(--orange)"></span>Ejemplo ilustrativo (deserción)</div>
+        <p>Inversión $100; beneficio anual $70; horizonte 3 años → beneficio total $210. <b>ROI = (210−100)/100 = 110%</b>; <b>payback ≈ 1,4 años</b>. (Cifras ilustrativas.)</p>
+      </div>
+    </section>
+
+    <!-- C · ACTA -->
+    <section id="acta">
+      <p class="kicker">C · Inicio y planeación</p>
+      <h2 class="sec">Acta de constitución (project charter)</h2>
+      <p>Es el documento que <b>autoriza formalmente</b> el proyecto y fija su marco de referencia. Responde: ¿qué haremos, por qué, con qué límites y quién responde? Debe caber en una página.</p>
+      <table>
+        <tr><th>Elemento</th><th>Ejemplo (deserción)</th></tr>
+        <tr><td><b>Nombre</b></td><td>Sistema de alerta temprana de retención estudiantil.</td></tr>
+        <tr><td><b>Justificación</b></td><td>La deserción de primer año afecta la misión y los ingresos.</td></tr>
+        <tr><td><b>Objetivo / pregunta</b></td><td>Predecir la probabilidad de deserción y explicar sus factores.</td></tr>
+        <tr><td><b>Alcance (incluye/excluye)</b></td><td>Incluye cohortes recientes y variables académicas y socioeconómicas. Excluye la intervención pedagógica.</td></tr>
+        <tr><td><b>Patrocinador / gerente</b></td><td>Vicerrectoría Académica / gerente del proyecto.</td></tr>
+        <tr><td><b>Entregables e hitos</b></td><td>Modelo validado, tablero de riesgo, protocolo de alertas.</td></tr>
+        <tr><td><b>Supuestos y restricciones</b></td><td>Privacidad (Ley 1581), presupuesto y plazo del semestre.</td></tr>
+        <tr><td><b>Criterios de éxito</b></td><td>Desempeño técnico acordado + adopción por Bienestar + retención mejorada.</td></tr>
+      </table>
+    </section>
+
+    <!-- C · INTERESADOS -->
+    <section id="interesados">
+      <p class="kicker">C · Inicio y planeación</p>
+      <h2 class="sec">Interesados y comunicación</h2>
+      <p>Los proyectos de datos fracasan más por falta de adopción que por fallas técnicas. Identifica a los interesados y clasifícalos por <b>poder</b> e <b>interés</b>:</p>
+      <table>
+        <tr><th>Cuadrante</th><th>Estrategia</th><th>Ejemplo (deserción)</th></tr>
+        <tr><td>Alto poder · alto interés</td><td><b>Gestionar de cerca</b></td><td>Rectoría, Vicerrectoría Académica</td></tr>
+        <tr><td>Alto poder · bajo interés</td><td><b>Mantener satisfechos</b></td><td>Dirección Financiera</td></tr>
+        <tr><td>Bajo poder · alto interés</td><td><b>Mantener informados</b></td><td>Docentes, Bienestar, estudiantes</td></tr>
+        <tr><td>Bajo poder · bajo interés</td><td><b>Monitorear</b></td><td>Proveedores externos</td></tr>
+      </table>
+      <div class="box write">
+        <div class="t"><span class="dot" style="background:var(--blue)"></span>Plan de comunicaciones</div>
+        <p>Define, para cada mensaje: <b>qué</b> se comunica, <b>a quién</b>, con qué <b>frecuencia</b>, por qué <b>canal</b> y quién es el <b>responsable</b>.</p>
+      </div>
+    </section>
+
+    <!-- C · EDT -->
+    <section id="edt">
+      <p class="kicker">C · Inicio y planeación</p>
+      <h2 class="sec">Estructura de desglose del trabajo (EDT/WBS)</h2>
+      <p>Descompón el alcance total en partes manejables (<b>regla del 100%</b>: incluye todo el trabajo, ni más ni menos), orientadas a entregables, hasta llegar a <b>paquetes de trabajo</b> estimables y asignables.</p>
+      <div class="box example">
+        <div class="t"><span class="dot" style="background:var(--orange)"></span>Ejemplo (deserción) — niveles</div>
+        <p><b>0. Modelo de retención</b> → 1. Gestión · 2. Comprensión de negocio y datos · 3. Preparación de datos · 4. Modelado · 5. Despliegue y adopción.</p>
+        <p style="margin-top:6px">El paquete <b>3. Preparación de datos</b> se abre en: 3.1 limpieza, 3.2 integración, 3.3 ingeniería de características, 3.4 partición.</p>
+      </div>
+      <p class="anchor-note">Acompaña la EDT con un <b>diccionario</b>: para cada paquete, su descripción, entregable y responsable.</p>
+    </section>
+
+    <!-- C · CRONOGRAMA -->
+    <section id="cronograma">
+      <p class="kicker">C · Inicio y planeación</p>
+      <h2 class="sec">Cronograma, hitos y ruta crítica</h2>
+      <p>Con el trabajo descompuesto, estima cada actividad, ordénalas según sus dependencias y construye el cronograma.</p>
+      <ul>
+        <li><b>Estimación:</b> juicio de expertos, analogía, paramétrica o PERT — Esperado = (Optimista + 4×Más probable + Pesimista) ÷ 6.</li>
+        <li><b>Ruta crítica:</b> la secuencia de actividades más larga; determina la duración total. Un retraso en ella retrasa todo el proyecto.</li>
+        <li><b>Hitos:</b> puntos de control (p. ej. “piloto desplegado”).</li>
+      </ul>
+      <div class="box example">
+        <div class="t"><span class="dot" style="background:var(--orange)"></span>Ejemplo (deserción)</div>
+        <p>A Definir (3d) → B Preparar datos (5d) → D Modelar (6d) → E Evaluar (2d) → F Desplegar piloto (4d). Ruta crítica = 20 días. (C Explorar, en paralelo, tiene holgura.)</p>
+      </div>
+    </section>
+
+    <!-- C · COSTOS -->
+    <section id="costos">
+      <p class="kicker">C · Inicio y planeación</p>
+      <h2 class="sec">Presupuesto y costos</h2>
+      <p>La estructura de costos de un proyecto de datos suele estar dominada por el <b>talento</b>, seguida por la infraestructura en la nube (por uso), licencias y datos, más una reserva de contingencia.</p>
+      <table>
+        <tr><th>Rubro</th><th>% ilustrativo</th><th>Nota</th></tr>
+        <tr><td>Talento</td><td class="pct">55%</td><td>Equipo de datos.</td></tr>
+        <tr><td>Infraestructura / nube</td><td class="pct">20%</td><td>Cómputo y almacenamiento por uso.</td></tr>
+        <tr><td>Licencias / software</td><td class="pct">10%</td><td>Plataforma de analítica.</td></tr>
+        <tr><td>Datos e integración</td><td class="pct">8%</td><td>Preparación y calidad.</td></tr>
+        <tr><td>Contingencia</td><td class="pct">7%</td><td>Reserva para riesgos.</td></tr>
+      </table>
+      <p class="anchor-note">Controla el gasto con indicadores de valor ganado (CV, SV, CPI, SPI) y buenas prácticas de nube (FinOps).</p>
+    </section>
+
+    <!-- C · EQUIPO -->
+    <section id="equipo">
+      <p class="kicker">C · Inicio y planeación</p>
+      <h2 class="sec">Equipo, roles y RACI</h2>
+      <p>Un proyecto de datos reúne perfiles técnicos, de negocio y de gestión. En equipos pequeños, una persona asume varios roles; lo esencial es que las responsabilidades estén cubiertas.</p>
+      <table>
+        <tr><th>Rol</th><th>Responsabilidad principal</th></tr>
+        <tr><td><b>Patrocinador</b></td><td>Autoriza, asegura recursos y respaldo.</td></tr>
+        <tr><td><b>Gerente de proyecto</b></td><td>Planea, coordina, gestiona alcance, tiempo, costo y riesgos.</td></tr>
+        <tr><td><b>Product Owner de datos</b></td><td>Prioriza el valor y representa al negocio.</td></tr>
+        <tr><td><b>Experto del dominio (SME)</b></td><td>Aporta conocimiento del negocio.</td></tr>
+        <tr><td><b>Científico de datos</b></td><td>Modela, experimenta y valida.</td></tr>
+        <tr><td><b>Ingeniero de datos</b></td><td>Pipelines, integración, calidad e infraestructura.</td></tr>
+        <tr><td><b>Analista / BI</b></td><td>Explora, visualiza y comunica.</td></tr>
+        <tr><td><b>ML Engineer</b></td><td>Despliega y opera los modelos (MLOps).</td></tr>
+        <tr><td><b>Data Owner / Steward</b></td><td>Responden por el dato y por su calidad.</td></tr>
+      </table>
+      <div class="box write">
+        <div class="t"><span class="dot" style="background:var(--blue)"></span>Matriz RACI</div>
+        <p>Asigna cada actividad con <b>R</b> (responsable, hace), <b>A</b> (aprueba, rinde cuentas — una sola por actividad), <b>C</b> (consultado) e <b>I</b> (informado).</p>
+      </div>
+    </section>
+
+    <!-- D · RIESGOS -->
+    <section id="riesgos">
+      <p class="kicker">D · Ejecución y control</p>
+      <h2 class="sec">Gestión de riesgos</h2>
+      <p>Proceso cíclico: <b>identificar → analizar (probabilidad × impacto) → planificar respuesta → monitorear</b>. Cada riesgo tiene un dueño.</p>
+      <div class="grid2">
+        <div class="card"><h4>Riesgos típicos de datos</h4>
+          <ul><li>Disponibilidad y calidad de datos</li><li>Sesgo del modelo</li><li>Deriva (drift)</li><li>Dependencias técnicas</li><li>Baja adopción</li></ul>
+        </div>
+        <div class="card accent"><h4>Estrategias de respuesta</h4>
+          <ul><li><b>Evitar</b> — eliminar la causa</li><li><b>Mitigar</b> — reducir probabilidad/impacto</li><li><b>Transferir</b> — a un tercero</li><li><b>Aceptar</b> — con reserva de contingencia</li></ul>
+        </div>
+      </div>
+      <div class="box example">
+        <div class="t"><span class="dot" style="background:var(--orange)"></span>Ejemplo — registro (deserción)</div>
+        <p>“Sesgo por variables sensibles” · prob. media · impacto alto · respuesta: mitigar auditando equidad · dueño: científico de datos.</p>
+      </div>
+    </section>
+
+    <!-- D · GOBERNANZA -->
+    <section id="gobernanza">
+      <p class="kicker">D · Ejecución y control</p>
+      <h2 class="sec">Gobernanza y calidad de datos</h2>
+      <p>La gobernanza define <b>quién responde por los datos y bajo qué reglas</b>; la calidad determina si sirven para decidir. Son habilitadores del proyecto, no trámites.</p>
+      <div class="grid2">
+        <div class="card"><h4>Roles</h4><p style="margin:0">Comité de gobernanza · Data Owner (propietario) · Data Steward (custodio) · custodio técnico.</p></div>
+        <div class="card"><h4>Dimensiones de calidad</h4><p style="margin:0">Exactitud · completitud · consistencia · validez · unicidad · oportunidad.</p></div>
+      </div>
+      <p class="anchor-note">Habilitadores: catálogo de datos, diccionario, linaje, políticas, control de acceso y clasificación por sensibilidad.</p>
+    </section>
+
+    <!-- D · ÉTICA -->
+    <section id="etica">
+      <p class="kicker">D · Ejecución y control</p>
+      <h2 class="sec">Ética, privacidad y cumplimiento</h2>
+      <ul>
+        <li><b>Ley 1581 de 2012 (Colombia):</b> protección de datos personales (Habeas Data). Exige <b>autorización previa</b> del titular, cuidado de <b>datos sensibles</b> y respeto de sus derechos (conocer, actualizar, rectificar, suprimir). Autoridad: SIC.</li>
+        <li><b>RGPD (UE):</b> referente internacional; añade portabilidad, “derecho al olvido” y la figura del DPO, con alcance extraterritorial.</li>
+        <li><b>Equidad:</b> auditar sesgos, evitar el uso indebido de atributos sensibles y mantener revisión humana en las decisiones.</li>
+      </ul>
+      <div class="box warn">
+        <div class="t"><span class="dot" style="background:var(--red)"></span>En el caso (deserción)</div>
+        <p>La alerta de riesgo <b>no debe penalizar</b> por origen, género u otra condición protegida, y su fin es <b>acompañar</b>, no estigmatizar ni sancionar.</p>
+      </div>
+    </section>
+
+    <!-- D · MLOps -->
+    <section id="mlops">
+      <p class="kicker">D · Ejecución y control</p>
+      <h2 class="sec">Despliegue, MLOps y adopción</h2>
+      <p>El valor de un producto de datos <b>se materializa en producción</b>, no en el prototipo. MLOps son las prácticas que llevan y mantienen el modelo funcionando de forma confiable.</p>
+      <p><span class="pill">Versionado (datos, código, modelos)</span><span class="pill">CI/CD</span><span class="pill">Automatización de reentrenamiento</span><span class="pill">Monitoreo de desempeño y deriva</span><span class="pill">Gobernanza</span></p>
+      <div class="box tip">
+        <div class="t"><span class="dot" style="background:var(--green)"></span>Adopción</div>
+        <p>Incluye la <b>gestión del cambio</b>: capacitación, comunicación y ajuste de procesos para que la solución realmente se use.</p>
+      </div>
+    </section>
+
+    <!-- D · VALOR -->
+    <section id="valor">
+      <p class="kicker">D · Ejecución y control</p>
+      <h2 class="sec">Seguimiento y realización de valor</h2>
+      <ul>
+        <li><b>KPIs:</b> distingue indicadores <b>técnicos</b> (desempeño del modelo) de indicadores de <b>valor de negocio</b> (p. ej. reducción de la deserción).</li>
+        <li><b>Realización de beneficios:</b> mide el valor efectivamente generado, no solo la entrega del modelo.</li>
+        <li><b>Control:</b> compara lo planeado con lo real (valor ganado) y ajusta.</li>
+      </ul>
+    </section>
+
+    <!-- E · MARCOS -->
+    <section id="marcos">
+      <p class="kicker">E · Enfoque metodológico</p>
+      <h2 class="sec">Selección de marcos y metodologías</h2>
+      <p>Propón una combinación (mínimo uno por categoría) según las características de tu proyecto:</p>
+      <div class="steps">
+        <div class="step"><div class="n">A</div><b>Gestión</b><span>PMBOK, ISO 21502 o PRINCE2</span></div>
+        <div class="step"><div class="n">B</div><b>Ágil</b><span>Scrum o Kanban</span></div>
+        <div class="step"><div class="n">C</div><b>Analítica</b><span>CRISP-DM o TDSP</span></div>
+        <div class="step"><div class="n">D</div><b>MLOps</b><span>Si el modelo va a producción</span></div>
+      </div>
+    </section>
+
+    <!-- E · RECOMENDACIÓN + TABLA -->
+    <section id="recomendacion">
+      <p class="kicker">E · Enfoque metodológico</p>
+      <h2 class="sec">Recomendación argumentada e integración</h2>
+      <p>Explica <b>cómo se combinan</b>: el estándar de gestión da gobernanza; Scrum/Kanban dan cadencia; CRISP-DM define el trabajo con datos; cada sprint recorre fases de CRISP-DM; MLOps sostiene el modelo en producción. Cierra con una tabla de integración:</p>
+      <table>
+        <tr><th>Necesidad</th><th>Marco / metodología</th><th>Aplicación en el proyecto</th></tr>
+        <tr><td>Gobernanza y planeación</td><td>PMBOK / ISO 21502 / PRINCE2</td><td>Alcance, interesados, riesgos, recursos y seguimiento</td></tr>
+        <tr><td>Organización del trabajo</td><td>Scrum o Kanban</td><td>Backlog, iteraciones, priorización, revisión</td></tr>
+        <tr><td>Desarrollo analítico</td><td>CRISP-DM o TDSP</td><td>Negocio, datos, preparación, modelado, evaluación, despliegue</td></tr>
+        <tr><td>Operación del modelo</td><td>MLOps (si aplica)</td><td>Versionado, automatización, monitoreo, reentrenamiento</td></tr>
+      </table>
+    </section>
+
+    <!-- ENTREGABLE -->
+    <section id="entregable">
+      <p class="kicker">Entrega</p>
+      <h2 class="sec">Estructura del entregable</h2>
+      <p>Documento en Word o PDF con esta estructura sugerida (más la app HTML como anexo/cierre):</p>
+      <div class="grid2">
+        <div class="card"><ol>
+          <li>Portada</li>
+          <li>Conceptos: proyecto, programa, portafolio</li>
+          <li>Caracterización del proyecto analítico</li>
+          <li>Pregunta analítica y caso de negocio</li>
+          <li>Acta de constitución</li>
+          <li>Interesados y comunicación</li>
+        </ol></div>
+        <div class="card"><ol start="7">
+          <li>EDT, cronograma y costos</li>
+          <li>Equipo, roles y RACI</li>
+          <li>Riesgos, gobernanza y ética</li>
+          <li>Despliegue/MLOps y valor</li>
+          <li>Marcos, recomendación y tabla de integración</li>
+          <li>Conclusión y referencias (APA)</li>
+        </ol></div>
+      </div>
+      <div class="box tip">
+        <div class="t"><span class="dot" style="background:var(--green)"></span>Criterios de evaluación (base de la Actividad 1)</div>
+        <p>Conceptos 15% · Caracterización 20% · Incertidumbre/exploración/datos 20% · Pertinencia de marcos 20% · Argumentación e integración 20% · Presentación y APA 5%. En la entrega final se suman los componentes de planeación, ejecución y valor; confirma con el docente los pesos definitivos.</p>
+      </div>
+    </section>
+
+    <!-- APP -->
+    <section id="app">
+      <p class="kicker">Cierre</p>
+      <h2 class="sec">El panorama: la app con IA</h2>
+      <p>Como cierre, construye una <b>app HTML</b> (un solo archivo) que materialice tu proyecto: un tablero, un simulador de riesgo, un formulario que devuelva una recomendación o una demo del resultado esperado. La IA te ayuda a generar el código; tú aportas el diseño del proyecto (esta guía).</p>
+      <div class="box tip">
+        <div class="t"><span class="dot" style="background:var(--green)"></span>Cómo generarla</div>
+        <ol>
+          <li>Describe tu proyecto a la IA con la ficha de caracterización (problema, pregunta, usuarios, resultado).</li>
+          <li>Pide un prototipo concreto en un solo archivo HTML, sin librerías externas.</li>
+          <li>Itera: revisa, ajusta contenido, colores y funciones (exploración e iteración).</li>
+          <li>Conecta la app con la gestión: explica qué parte del enfoque (CRISP-DM, sprints, MLOps) representa.</li>
+        </ol>
+      </div>
+      <div class="box example">
+        <div class="t"><span class="dot" style="background:var(--orange)"></span>Prompt de ejemplo</div>
+        <code class="prompt">Genera una app en un solo archivo HTML (sin librerías externas, sin internet)
+para el proyecto "Alerta temprana de deserción".
+Incluye: (1) formulario con notas, asistencia y semestre;
+(2) cálculo simple que muestre nivel de riesgo (bajo/medio/alto);
+(3) panel con 3 indicadores de ejemplo.
+Paleta azul oscuro y naranja; diseño responsive.</code>
+      </div>
+      <div class="box warn">
+        <div class="t"><span class="dot" style="background:var(--red)"></span>Importante</div>
+        <p>La app es un <b>prototipo</b> con datos de ejemplo, para comunicar el proyecto; no reemplaza el desarrollo real ni usa datos personales.</p>
+      </div>
+    </section>
+
+    <!-- CHECKLIST -->
+    <section id="checklist">
+      <p class="kicker">Antes de entregar</p>
+      <h2 class="sec">Checklist final</h2>
+      <ul class="check">
+        <li>Definí proyecto, programa y portafolio con un ejemplo que los diferencia.</li>
+        <li>Caractericé el proyecto y sus 5 rasgos analíticos.</li>
+        <li>Redacté la pregunta analítica y la verifiqué contra los 6 criterios.</li>
+        <li>Incluí el caso de negocio con ROI / valor estimado.</li>
+        <li>Elaboré el acta de constitución.</li>
+        <li>Analicé interesados (poder/interés) y el plan de comunicaciones.</li>
+        <li>Construí la EDT (con diccionario), el cronograma (ruta crítica) y el presupuesto.</li>
+        <li>Asigné el equipo con una matriz RACI.</li>
+        <li>Incluí registro de riesgos, gobernanza/calidad de datos y consideraciones éticas (Ley 1581).</li>
+        <li>Describí el despliegue/MLOps y cómo se medirá el valor.</li>
+        <li>Justifiqué los marcos y presenté la tabla de integración.</li>
+        <li>Escribí la conclusión, cité en APA y preparé la app HTML.</li>
+      </ul>
+      <div class="onesent" style="border-left-color:var(--green)">
+        <b>Recuerda:</b> la entrega final demuestra que sabes <b>gestionar todo el ciclo de un producto de datos</b> —no solo modelar—: desde la pregunta y el valor hasta el despliegue y la adopción.
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  Gerencia de Proyectos y Analítica · Especialización en Analítica de Datos · Universidad Autónoma Latinoamericana (UNAULA). Guía de la entrega final del proyecto integrador — Docente: Luis Felipe Ortiz-Clavijo.
+</footer>
+
+<script>
+  const links = [...document.querySelectorAll('nav.side a')];
+  const map = {};
+  links.forEach(a => { const id = a.getAttribute('href').slice(1); const s = document.getElementById(id); if (s) map[id] = a; });
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { links.forEach(l => l.classList.remove('active')); if (map[e.target.id]) map[e.target.id].classList.add('active'); } });
+  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+  Object.keys(map).forEach(id => obs.observe(document.getElementById(id)));
+  links.forEach(a => a.addEventListener('click', () => document.querySelector('nav.side').classList.remove('open')));
+</script>
+</body>
+</html>
