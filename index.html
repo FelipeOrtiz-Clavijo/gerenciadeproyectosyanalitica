@@ -1,538 +1,206 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gerencia de Proyectos y Analítica - UNAULA</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metodología I · Laboratorio de Investigación</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <style>
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
-    .kanban-col { min-height: 280px; }
-  </style>
-</head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased">
-
-  <!-- Header / Navbar -->
-  <header class="bg-indigo-900 text-white shadow-lg sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
-      <div class="flex items-center space-x-3">
-        <div class="bg-red-600 text-white font-black text-xl px-2.5 py-1 rounded">UNAULA</div>
-        <div>
-          <h1 class="text-lg font-bold leading-tight">Gerencia de Proyectos y Analítica</h1>
-          <p class="text-xs text-indigo-200">Especialización en Analítica de Datos | Docente: Luis Felipe Ortiz-Clavijo</p>
-        </div>
-      </div>
-      <div class="flex items-center space-x-2 mt-2 sm:mt-0 text-sm">
-        <span class="bg-indigo-800 px-3 py-1 rounded-full text-indigo-200 border border-indigo-700">
-          <i class="fa-solid fa-signal text-emerald-400 mr-1"></i> Estado: En Ejecución
-        </span>
-      </div>
-    </div>
-  </header>
-
-  <!-- Project Brief Banner -->
-  <div class="bg-white border-b border-slate-200 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 py-4 grid grid-cols-1 md:grid-cols-4 gap-4">
-      <div class="border-l-4 border-indigo-600 pl-3">
-        <p class="text-xs uppercase text-slate-500 font-semibold">Proyecto</p>
-        <p class="text-sm font-bold text-slate-800">Sistema Predictivo Churn Postpago</p>
-      </div>
-      <div class="border-l-4 border-emerald-500 pl-3">
-        <p class="text-xs uppercase text-slate-500 font-semibold">Organización</p>
-        <p class="text-sm font-bold text-slate-800">TelcoAndina S.A.</p>
-      </div>
-      <div class="border-l-4 border-amber-500 pl-3">
-        <p class="text-xs uppercase text-slate-500 font-semibold">Presupuesto / ROI</p>
-        <p class="text-sm font-bold text-slate-800">$85M COP | 154% ROI</p>
-      </div>
-      <div class="border-l-4 border-purple-500 pl-3">
-        <p class="text-xs uppercase text-slate-500 font-semibold">Duración</p>
-        <p class="text-sm font-bold text-slate-800">16 Semanas (4 Sprints)</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Navigation Tabs -->
-  <div class="max-w-7xl mx-auto px-4 mt-6">
-    <nav class="flex space-x-2 border-b border-slate-200 overflow-x-auto pb-1">
-      <button onclick="switchTab('resumen')" id="tab-btn-resumen" class="tab-btn active px-4 py-2 text-sm font-semibold rounded-t-lg border-b-2 border-indigo-600 text-indigo-600 bg-white">
-        <i class="fa-solid fa-book-open mr-1"></i> 1. Visión y Fundamentos
-      </button>
-      <button onclick="switchTab('metodologia')" id="tab-btn-metodologia" class="tab-btn px-4 py-2 text-sm font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-indigo-600 bg-slate-100">
-        <i class="fa-solid fa-diagram-project mr-1"></i> 2. Enfoque Híbrido & RACI
-      </button>
-      <button onclick="switchTab('kanban')" id="tab-btn-kanban" class="tab-btn px-4 py-2 text-sm font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-indigo-600 bg-slate-100">
-        <i class="fa-solid fa-list-check mr-1"></i> 3. Gestión y Backlog (EDT)
-      </button>
-      <button onclick="switchTab('simulador')" id="tab-btn-simulador" class="tab-btn px-4 py-2 text-sm font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-indigo-600 bg-slate-100">
-        <i class="fa-solid fa-chart-line mr-1"></i> 4. Control Financiero & EVM
-      </button>
-      <button onclick="switchTab('riesgos')" id="tab-btn-riesgos" class="tab-btn px-4 py-2 text-sm font-semibold rounded-t-lg border-b-2 border-transparent text-slate-600 hover:text-indigo-600 bg-slate-100">
-        <i class="fa-solid fa-shield-halved mr-1"></i> 5. Riesgos & Gobernanza
-      </button>
-    </nav>
-  </div>
-
-  <!-- Main Container -->
-  <main class="max-w-7xl mx-auto px-4 py-6">
-
-    <!-- TAB 1: VISIÓN Y FUNDAMENTOS -->
-    <section id="tab-resumen" class="tab-content active space-y-6">
-      <!-- 1. Conceptos -->
-      <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-        <h2 class="text-lg font-bold text-slate-800 mb-3 flex items-center">
-          <i class="fa-solid fa-layer-group text-indigo-600 mr-2"></i> 1. Conceptos Fundamentales de Gestión
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-          <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100">
-            <h3 class="font-bold text-indigo-900 mb-1"><i class="fa-solid fa-clock mr-1"></i> Proyecto</h3>
-            <p class="text-slate-700">Esfuerzo temporal con inicio y fin definidos, orientado a generar un entregable o resultado único mediante recursos finitos.</p>
-          </div>
-          <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
-            <h3 class="font-bold text-blue-900 mb-1"><i class="fa-solid fa-cubes mr-1"></i> Programa</h3>
-            <p class="text-slate-700">Conjunto de proyectos y actividades afines gestionados de forma coordinada para obtener sinergias y beneficios que no se lograrían por separado.</p>
-          </div>
-          <div class="bg-purple-50 p-4 rounded-lg border border-purple-100">
-            <h3 class="font-bold text-purple-900 mb-1"><i class="fa-solid fa-briefcase mr-1"></i> Portafolio</h3>
-            <p class="text-slate-700">Colección de proyectos, programas y operaciones priorizados estratégicamente para cumplir las metas globales de la organización.</p>
-          </div>
-        </div>
-        <div class="mt-4 p-3 bg-slate-100 rounded-lg text-xs text-slate-700 border-l-4 border-indigo-600">
-          <strong>Ejemplo Integrador en Telco:</strong> <em>Portafolio:</em> Transformación Digital y Retención 2026-2028 &rarr; <em>Programa:</em> Fidelización Omnicanal &rarr; <em>Proyecto:</em> Modelo predictivo de Churn postpago.
-        </div>
-      </div>
-
-      <!-- 2. Caracterización Analítica -->
-      <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-        <h2 class="text-lg font-bold text-slate-800 mb-3 flex items-center">
-          <i class="fa-solid fa-magnifying-glass-chart text-indigo-600 mr-2"></i> 2. Caracterización del Proyecto Analítico
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-          <div>
-            <h3 class="font-semibold text-slate-700 mb-2">Definición Estratégica</h3>
-            <ul class="space-y-2 text-slate-600">
-              <li><strong>Contexto:</strong> TelcoAndina S.A. registra fuga mensual de 4.2% en postpago.</li>
-              <li><strong>Pregunta Analítica:</strong> <em>¿Qué clientes postpago presentan probabilidad &ge; 70% de retirarse en los próximos 60 días y qué factores lo explican?</em></li>
-              <li><strong>Interesados:</strong> Dirección de Retención, Mercadeo, TI y Contact Center.</li>
-              <li><strong>Resultado:</strong> Pipeline de ML con scoring quincenal integrado a Power BI y CRM Salesforce.</li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="font-semibold text-slate-700 mb-2">Particularidades del Proyecto de Datos</h3>
-            <div class="space-y-2 text-xs">
-              <div class="p-2 bg-amber-50 border-l-2 border-amber-500 rounded text-amber-900">
-                <strong>Incertidumbre & Iteración:</strong> Hipótesis continuas, sin certeza inicial de la capacidad predictiva de las variables (CRISP-DM).
-              </div>
-              <div class="p-2 bg-blue-50 border-l-2 border-blue-500 rounded text-blue-900">
-                <strong>Dependencia Crítica de Datos:</strong> Integración de logs de tráfico (CDRs), PQRs y facturación sujeta a calidad y Habeas Data.
-              </div>
-              <div class="p-2 bg-emerald-50 border-l-2 border-emerald-500 rounded text-emerald-900">
-                <strong>Resultado Probabilístico & Valor:</strong> Salida sujeta a falsos positivos/negativos; el valor solo se realiza al desplegar y adoptar el score.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB 2: ENFOQUE HÍBRIDO & RACI -->
-    <section id="tab-metodologia" class="tab-content space-y-6">
-      <!-- Metodologías -->
-      <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-        <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
-          <i class="fa-solid fa-code-merge text-indigo-600 mr-2"></i> Enfoque Metodológico Híbrido
-        </h2>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm border-collapse">
-            <thead>
-              <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
-                <th class="p-3 font-bold">Nivel / Necesidad</th>
-                <th class="p-3 font-bold">Marco Seleccionado</th>
-                <th class="p-3 font-bold">Aplicación Práctica en el Proyecto</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-200 text-slate-600">
-              <tr>
-                <td class="p-3 font-semibold text-slate-800">Gobernanza y Control</td>
-                <td class="p-3 text-indigo-700 font-medium">PMBOK (7ª Ed.)</td>
-                <td class="p-3">Charter, gestión de interesados, presupuestos, riesgos y alineación estratégica.</td>
-              </tr>
-              <tr>
-                <td class="p-3 font-semibold text-slate-800">Gestión del Trabajo</td>
-                <td class="p-3 text-indigo-700 font-medium">Scrum (Sprints 2 sem)</td>
-                <td class="p-3">Backlog priorizado, entregables funcionales quincenales y ceremonias ágiles.</td>
-              </tr>
-              <tr>
-                <td class="p-3 font-semibold text-slate-800">Desarrollo Científico</td>
-                <td class="p-3 text-indigo-700 font-medium">CRISP-DM</td>
-                <td class="p-3">Fases de comprensión, ingeniería de variables, modelado analítico y validación.</td>
-              </tr>
-              <tr>
-                <td class="p-3 font-semibold text-slate-800">Operación Continua</td>
-                <td class="p-3 text-indigo-700 font-medium">MLOps</td>
-                <td class="p-3">Versionado (MLflow/DVC), CI/CD, monitoreo de data drift y reentrenamiento.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Matriz RACI -->
-      <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-        <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
-          <i class="fa-solid fa-users-gear text-indigo-600 mr-2"></i> Matriz RACI de Responsabilidades
-        </h2>
-        <div class="overflow-x-auto">
-          <table class="w-full text-center text-sm border-collapse">
-            <thead>
-              <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
-                <th class="p-3 text-left font-bold">Actividad Clave</th>
-                <th class="p-3 font-bold">Patrocinador</th>
-                <th class="p-3 font-bold">PM</th>
-                <th class="p-3 font-bold">Product Owner</th>
-                <th class="p-3 font-bold">Data Scientist</th>
-                <th class="p-3 font-bold">Data Engineer</th>
-                <th class="p-3 font-bold">ML Engineer</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-200 text-slate-600">
-              <tr>
-                <td class="p-3 text-left font-medium">Definición de requisitos y backlog</td>
-                <td class="p-3 text-slate-400">I</td>
-                <td class="p-3 text-slate-400">C</td>
-                <td class="p-3 font-bold text-emerald-600 bg-emerald-50">A / R</td>
-                <td class="p-3 text-slate-400">C</td>
-                <td class="p-3 text-slate-400">C</td>
-                <td class="p-3 text-slate-400">I</td>
-              </tr>
-              <tr>
-                <td class="p-3 text-left font-medium">Pipelines de Ingesta & Limpieza</td>
-                <td class="p-3 text-slate-400">I</td>
-                <td class="p-3 font-bold text-blue-600">A</td>
-                <td class="p-3 text-slate-400">I</td>
-                <td class="p-3 text-slate-400">C</td>
-                <td class="p-3 font-bold text-emerald-600 bg-emerald-50">R</td>
-                <td class="p-3 text-slate-400">C</td>
-              </tr>
-              <tr>
-                <td class="p-3 text-left font-medium">Entrenamiento & Evaluación del Modelo</td>
-                <td class="p-3 text-slate-400">I</td>
-                <td class="p-3 font-bold text-blue-600">A</td>
-                <td class="p-3 text-slate-400">C</td>
-                <td class="p-3 font-bold text-emerald-600 bg-emerald-50">R</td>
-                <td class="p-3 text-slate-400">C</td>
-                <td class="p-3 text-slate-400">C</td>
-              </tr>
-              <tr>
-                <td class="p-3 text-left font-medium">Despliegue CI/CD & MLOps</td>
-                <td class="p-3 text-slate-400">I</td>
-                <td class="p-3 font-bold text-blue-600">A</td>
-                <td class="p-3 text-slate-400">I</td>
-                <td class="p-3 text-slate-400">C</td>
-                <td class="p-3 text-slate-400">C</td>
-                <td class="p-3 font-bold text-emerald-600 bg-emerald-50">R</td>
-              </tr>
-              <tr>
-                <td class="p-3 text-left font-medium">Adopción y Capacitación CRM</td>
-                <td class="p-3 text-slate-400">C</td>
-                <td class="p-3 font-bold text-blue-600">A</td>
-                <td class="p-3 font-bold text-emerald-600 bg-emerald-50">R</td>
-                <td class="p-3 text-slate-400">I</td>
-                <td class="p-3 text-slate-400">I</td>
-                <td class="p-3 text-slate-400">I</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="text-xs text-slate-500 mt-2"><strong>Convenciones:</strong> R = Responsable | A = Aprueba / Rinde Cuentas | C = Consultado | I = Informado.</p>
-      </div>
-    </section>
-
-    <!-- TAB 3: GESTIÓN INTERACTIVA / KANBAN -->
-    <section id="tab-kanban" class="tab-content space-y-6">
-      <div class="flex flex-wrap justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-        <div>
-          <h2 class="text-lg font-bold text-slate-800">Tablero de Control de Entregables (EDT / WBS)</h2>
-          <p class="text-xs text-slate-500">Mueva las tareas de estado haciendo clic en las flechas de cada tarjeta.</p>
-        </div>
-        <button onclick="resetKanban()" class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1.5 rounded font-medium mt-2 sm:mt-0">
-          <i class="fa-solid fa-rotate-left mr-1"></i> Reiniciar Estados
-        </button>
-      </div>
-
-      <!-- Kanban Columns -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Por Hacer -->
-        <div class="bg-slate-100 p-4 rounded-xl border border-slate-200">
-          <div class="flex justify-between items-center mb-3">
-            <h3 class="font-bold text-slate-700 text-sm flex items-center">
-              <span class="w-2.5 h-2.5 rounded-full bg-slate-400 mr-2"></span> Por Hacer
-            </h3>
-            <span id="count-todo" class="text-xs font-semibold bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full">0</span>
-          </div>
-          <div id="col-todo" class="kanban-col space-y-3"></div>
-        </div>
-
-        <!-- En Progreso -->
-        <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100">
-          <div class="flex justify-between items-center mb-3">
-            <h3 class="font-bold text-indigo-900 text-sm flex items-center">
-              <span class="w-2.5 h-2.5 rounded-full bg-indigo-500 mr-2"></span> En Progreso (Sprint Actual)
-            </h3>
-            <span id="count-in-progress" class="text-xs font-semibold bg-indigo-200 text-indigo-800 px-2 py-0.5 rounded-full">0</span>
-          </div>
-          <div id="col-in-progress" class="kanban-col space-y-3"></div>
-        </div>
-
-        <!-- Completado -->
-        <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100">
-          <div class="flex justify-between items-center mb-3">
-            <h3 class="font-bold text-emerald-900 text-sm flex items-center">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 mr-2"></span> Completado / Validado
-            </h3>
-            <span id="count-done" class="text-xs font-semibold bg-emerald-200 text-emerald-800 px-2 py-0.5 rounded-full">0</span>
-          </div>
-          <div id="col-done" class="kanban-col space-y-3"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB 4: SIMULADOR FINANCIERO Y EVM -->
-    <section id="tab-simulador" class="tab-content space-y-6">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Panel de Entradas -->
-        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
-          <h2 class="text-base font-bold text-slate-800 border-b pb-2">
-            <i class="fa-solid fa-sliders text-indigo-600 mr-2"></i> Parámetros de Retención & FinOps
-          </h2>
-          <div>
-            <label class="block text-xs font-medium text-slate-600 mb-1">Clientes Retenidos / Año</label>
-            <input type="number" id="input-clientes" value="3600" step="100" class="w-full text-sm border border-slate-300 rounded p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" oninput="calculateFinances()">
-          </div>
-          <div>
-            <label class="block text-xs font-medium text-slate-600 mb-1">Margen Promedio / Cliente ($ COP)</label>
-            <input type="number" id="input-margen" value="60000" step="5000" class="w-full text-sm border border-slate-300 rounded p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" oninput="calculateFinances()">
-          </div>
-          <div>
-            <label class="block text-xs font-medium text-slate-600 mb-1">Inversión del Proyecto ($ COP)</label>
-            <input type="number" id="input-inversion" value="85000000" step="1000000" class="w-full text-sm border border-slate-300 rounded p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" oninput="calculateFinances()">
-          </div>
-        </div>
-
-        <!-- Indicadores de Valor -->
-        <div class="md:col-span-2 bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
-          <div>
-            <h2 class="text-base font-bold text-slate-800 border-b pb-2 mb-4">
-              <i class="fa-solid fa-calculator text-indigo-600 mr-2"></i> Retorno de Inversión y Realización de Valor
-            </h2>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-              <div class="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
-                <p class="text-xs text-emerald-800 font-semibold uppercase">Beneficio Anual Bruto</p>
-                <p id="res-beneficio" class="text-xl font-black text-emerald-700 mt-1">$216.000.000</p>
-              </div>
-              <div class="p-4 bg-indigo-50 rounded-lg border border-indigo-200">
-                <p class="text-xs text-indigo-800 font-semibold uppercase">ROI Estimado (Año 1)</p>
-                <p id="res-roi" class="text-2xl font-black text-indigo-700 mt-1">154.1%</p>
-              </div>
-              <div class="p-4 bg-purple-50 rounded-lg border border-purple-200">
-                <p class="text-xs text-purple-800 font-semibold uppercase">Recuperación (Payback)</p>
-                <p id="res-payback" class="text-xl font-black text-purple-700 mt-1">4.7 meses</p>
-              </div>
-            </div>
-          </div>
-          <div class="mt-4 p-3 bg-slate-50 border rounded-lg text-xs text-slate-600">
-            <strong>Fórmula Aplicada:</strong> $\text{ROI} = \frac{\text{Beneficio Neto}}{\text{Inversión}} \times 100$. Permite monitorear la viabilidad del caso de negocio frente a fluctuaciones en el costo computacional cloud.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB 5: RIESGOS Y GOBERNANZA -->
-    <section id="tab-riesgos" class="tab-content space-y-6">
-      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-        <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
-          <i class="fa-solid fa-triangle-exclamation text-amber-500 mr-2"></i> Matriz de Riesgos y Control Operativo
-        </h2>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm border-collapse">
-            <thead>
-              <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
-                <th class="p-3 font-bold">Riesgo</th>
-                <th class="p-3 font-bold">Nivel</th>
-                <th class="p-3 font-bold">Estrategia de Respuesta</th>
-                <th class="p-3 font-bold">Responsable</th>
-                <th class="p-3 font-bold text-center">Estado</th>
-              </tr>
-            </thead>
-            <tbody id="risk-table-body" class="divide-y divide-slate-200 text-slate-600">
-              <!-- Rendered dynamically -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-          <h3 class="font-bold text-slate-800 mb-2 flex items-center text-sm">
-            <i class="fa-solid fa-scale-balanced text-indigo-600 mr-2"></i> Cumplimiento & Ley 1581 de 2012
-          </h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Se aplican mecanismos de anonimización en datos de desarrollo, custodia de consentimiento previo y expreso del titular y auditorías de equidad algorítmica para evitar exclusiones socioeconómicas.
-          </p>
-        </div>
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-          <h3 class="font-bold text-slate-800 mb-2 flex items-center text-sm">
-            <i class="fa-solid fa-gears text-indigo-600 mr-2"></i> Gobernanza & Calidad de Datos
-          </h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Monitoreo quincenal de 6 dimensiones de calidad con Great Expectations: completitud, consistencia, unicidad, validez, exactitud y oportunidad. Roles asignados de Data Owner y Data Steward.
-          </p>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- JS Logic -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.3/papaparse.min.js"></script>
   <script>
-    // Tab switching
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(el => {
-        el.classList.remove('active', 'border-indigo-600', 'text-indigo-600', 'bg-white');
-        el.classList.add('border-transparent', 'text-slate-600', 'bg-slate-100');
-      });
-
-      document.getElementById('tab-' + tabId).classList.add('active');
-      const activeBtn = document.getElementById('tab-btn-' + tabId);
-      activeBtn.classList.add('active', 'border-indigo-600', 'text-indigo-600', 'bg-white');
-      activeBtn.classList.remove('border-transparent', 'text-slate-600', 'bg-slate-100');
-    }
-
-    // Kanban state and tasks
-    let tasks = [
-      { id: 1, code: "1.0", title: "Project Charter & Alineación", sprint: "Sprint 1", status: "done", critical: false, resp: "PM / PO" },
-      { id: 2, code: "2.0", title: "Ingesta & Feature Store (CDRs)", sprint: "Sprint 1-2", status: "done", critical: true, resp: "Data Engineer" },
-      { id: 3, code: "3.0", title: "Entrenamiento Algoritmos (XGBoost)", sprint: "Sprint 2-3", status: "in-progress", critical: true, resp: "Data Scientist" },
-      { id: 4, code: "4.0", title: "Despliegue API & MLOps CI/CD", sprint: "Sprint 3-4", status: "todo", critical: true, resp: "ML Engineer" },
-      { id: 5, code: "5.0", title: "Adopción CRM & Piloto A/B", sprint: "Sprint 4", status: "todo", critical: false, resp: "PO / Negocio" }
-    ];
-
-    function renderKanban() {
-      const colTodo = document.getElementById('col-todo');
-      const colProg = document.getElementById('col-in-progress');
-      const colDone = document.getElementById('col-done');
-
-      colTodo.innerHTML = '';
-      colProg.innerHTML = '';
-      colDone.innerHTML = '';
-
-      let cTodo = 0, cProg = 0, cDone = 0;
-
-      tasks.forEach(t => {
-        const card = document.createElement('div');
-        card.className = "bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm text-xs space-y-2 hover:shadow transition";
-        card.innerHTML = `
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-indigo-900">${t.code} ${t.title}</span>
-            ${t.critical ? '<span class="text-[10px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-semibold">Ruta Crítica</span>' : ''}
-          </div>
-          <div class="flex justify-between text-slate-500 text-[11px]">
-            <span><i class="fa-regular fa-clock mr-1"></i>${t.sprint}</span>
-            <span><i class="fa-regular fa-user mr-1"></i>${t.resp}</span>
-          </div>
-          <div class="flex justify-end space-x-1 pt-1 border-t border-slate-100">
-            ${t.status !== 'todo' ? `<button onclick="moveTask(${t.id}, 'prev')" class="p-1 text-slate-400 hover:text-indigo-600" title="Mover a la izquierda"><i class="fa-solid fa-arrow-left"></i></button>` : ''}
-            ${t.status !== 'done' ? `<button onclick="moveTask(${t.id}, 'next')" class="p-1 text-slate-400 hover:text-indigo-600" title="Mover a la derecha"><i class="fa-solid fa-arrow-right"></i></button>` : ''}
-          </div>
-        `;
-
-        if(t.status === 'todo') { colTodo.appendChild(card); cTodo++; }
-        else if(t.status === 'in-progress') { colProg.appendChild(card); cProg++; }
-        else if(t.status === 'done') { colDone.appendChild(card); cDone++; }
-      });
-
-      document.getElementById('count-todo').innerText = cTodo;
-      document.getElementById('count-in-progress').innerText = cProg;
-      document.getElementById('count-done').innerText = cDone;
-    }
-
-    function moveTask(id, dir) {
-      const order = ['todo', 'in-progress', 'done'];
-      const task = tasks.find(t => t.id === id);
-      let idx = order.indexOf(task.status);
-      if(dir === 'next' && idx < 2) task.status = order[idx + 1];
-      if(dir === 'prev' && idx > 0) task.status = order[idx - 1];
-      renderKanban();
-    }
-
-    function resetKanban() {
-      tasks = [
-        { id: 1, code: "1.0", title: "Project Charter & Alineación", sprint: "Sprint 1", status: "done", critical: false, resp: "PM / PO" },
-        { id: 2, code: "2.0", title: "Ingesta & Feature Store (CDRs)", sprint: "Sprint 1-2", status: "done", critical: true, resp: "Data Engineer" },
-        { id: 3, code: "3.0", title: "Entrenamiento Algoritmos (XGBoost)", sprint: "Sprint 2-3", status: "in-progress", critical: true, resp: "Data Scientist" },
-        { id: 4, code: "4.0", title: "Despliegue API & MLOps CI/CD", sprint: "Sprint 3-4", status: "todo", critical: true, resp: "ML Engineer" },
-        { id: 5, code: "5.0", title: "Adopción CRM & Piloto A/B", sprint: "Sprint 4", status: "todo", critical: false, resp: "PO / Negocio" }
-      ];
-      renderKanban();
-    }
-
-    // Financial Calculation
-    function calculateFinances() {
-      const clientes = parseFloat(document.getElementById('input-clientes').value) || 0;
-      const margen = parseFloat(document.getElementById('input-margen').value) || 0;
-      const inversion = parseFloat(document.getElementById('input-inversion').value) || 1;
-
-      const beneficio = clientes * margen;
-      const roi = ((beneficio - inversion) / inversion) * 100;
-      const payback = (inversion / (beneficio / 12));
-
-      document.getElementById('res-beneficio').innerText = "$" + beneficio.toLocaleString('es-CO');
-      document.getElementById('res-roi').innerText = roi.toFixed(1) + "%";
-      document.getElementById('res-payback').innerText = isFinite(payback) ? payback.toFixed(1) + " meses" : "N/A";
-    }
-
-    // Risk Table
-    const risks = [
-      { name: "Baja calidad o latencia en logs de tráfico (CDRs)", level: "Media / Alto", resp: "Mitigar (Great Expectations)", owner: "Data Engineer", status: "Controlado" },
-      { name: "Resistencia al uso del score por agentes de Contact Center", level: "Alta / Alto", resp: "Mitigar (Talleres de co-diseño)", owner: "PO / PM", status: "En Mitigación" },
-      { name: "Deriva conceptual del modelo (Concept Drift)", level: "Alta / Medio", resp: "Mitigar (Alertas MLflow y CI/CD)", owner: "ML Engineer", status: "Monitoreo" }
-    ];
-
-    function renderRisks() {
-      const tbody = document.getElementById('risk-table-body');
-      tbody.innerHTML = '';
-      risks.forEach((r, idx) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="p-3 font-medium text-slate-800">${r.name}</td>
-          <td class="p-3"><span class="text-xs px-2 py-0.5 rounded font-semibold bg-amber-100 text-amber-800">${r.level}</span></td>
-          <td class="p-3">${r.resp}</td>
-          <td class="p-3">${r.owner}</td>
-          <td class="p-3 text-center">
-            <select onchange="updateRiskStatus(${idx}, this.value)" class="text-xs bg-slate-50 border rounded p-1">
-              <option ${r.status === 'Controlado' ? 'selected' : ''}>Controlado</option>
-              <option ${r.status === 'En Mitigación' ? 'selected' : ''}>En Mitigación</option>
-              <option ${r.status === 'Monitoreo' ? 'selected' : ''}>Monitoreo</option>
-            </select>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function updateRiskStatus(idx, val) {
-      risks[idx].status = val;
-    }
-
-    // Init
-    window.onload = () => {
-      renderKanban();
-      calculateFinances();
-      renderRisks();
+    tailwind.config = {
+      theme: { extend: {
+        colors: { ink: '#172033', slateblue: '#344663', accent: '#b06a3c', paper: '#f7f4ef', line: '#ddd8cf' },
+        fontFamily: { sans: ['Inter','ui-sans-serif','system-ui','sans-serif'], serif: ['Source Serif 4','Georgia','serif'] }
+      }}
     };
   </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <style>
+    :root { color-scheme: light; }
+    body { background: #f7f4ef; color: #172033; }
+    .soft-shadow { box-shadow: 0 18px 45px rgba(23,32,51,.07); }
+    .tab-active { color:#b06a3c; border-bottom: 2px solid #b06a3c; background:rgba(176,106,60,.05); }
+    .tab { transition:all .18s ease; }
+    .tab:hover { color:#b06a3c; background:rgba(176,106,60,.04); }
+    textarea, input, select { outline:none; transition: border-color .15s, box-shadow .15s; }
+    textarea:focus, input:focus, select:focus { border-color:#b06a3c !important; box-shadow:0 0 0 3px rgba(176,106,60,.12); }
+    textarea { resize:vertical; }
+    .toast { animation: slideIn .2s ease-out, fadeOut .3s ease-in 2.7s forwards; }
+    @keyframes slideIn { from {transform:translateY(8px);opacity:0} to {transform:translateY(0);opacity:1} }
+    @keyframes fadeOut { to {opacity:0;transform:translateY(8px)} }
+    .table-wrap { overflow-x:auto; }
+    .table-wrap table { min-width: 1060px; }
+    .print-only { display:none; }
+    @media print {
+      @page { margin: 1.5cm; }
+      body { background:white !important; color:#111827; }
+      .no-print, header, nav, aside, button, .toast, #appView { display:none !important; }
+      #printView, .print-only { display:block !important; }
+      #printView { font-family: Georgia, serif; }
+      .print-section { break-inside: avoid; margin-bottom: 22px; }
+      .print-table { width:100%; border-collapse:collapse; font-size:9pt; }
+      .print-table th, .print-table td { border:1px solid #bbb; padding:5px; vertical-align:top; }
+      .print-table th { background:#eee; }
+      h1,h2,h3 { color:#111827; }
+    }
+  </style>
+</head>
+<body class="min-h-screen font-sans">
+  <div id="appView">
+    <header class="no-print bg-ink text-white">
+      <div class="max-w-[1500px] mx-auto px-5 sm:px-8 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <div class="text-[11px] tracking-[.22em] uppercase text-orange-200/80 font-semibold">Metodología I · Doctorado en Ciencias Sociales</div>
+          <h1 class="font-serif text-2xl sm:text-3xl mt-1">Laboratorio de Investigación</h1>
+        </div>
+        <div class="flex items-center gap-2 text-xs">
+          <span id="saveState" class="px-3 py-1.5 rounded-full bg-white/10 text-slate-200">Guardado local activo</span>
+          <span id="completionBadge" class="px-3 py-1.5 rounded-full bg-orange-500/20 text-orange-100">0% completo</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="max-w-[1500px] mx-auto grid lg:grid-cols-[235px_1fr] min-h-[calc(100vh-88px)]">
+      <aside class="no-print hidden lg:block border-r border-line px-5 py-8">
+        <p class="text-[10px] font-bold tracking-[.18em] uppercase text-slate-400 mb-4">Cuaderno de trabajo</p>
+        <nav class="space-y-1" id="sideNav">
+          <button data-tab="overview" class="tab w-full text-left rounded-lg px-3 py-3 text-sm font-medium">Inicio <span class="block text-xs font-normal text-slate-400 mt-0.5">Vista general</span></button>
+          <button data-tab="scopus" class="tab w-full text-left rounded-lg px-3 py-3 text-sm font-medium">00 · Scopus <span class="block text-xs font-normal text-slate-400 mt-0.5">Procesamiento bibliográfico</span></button>
+          <button data-tab="antecedentes" class="tab w-full text-left rounded-lg px-3 py-3 text-sm font-medium">01 · Antecedentes <span class="block text-xs font-normal text-slate-400 mt-0.5">Cartografía y controversias</span></button>
+          <button data-tab="problema" class="tab w-full text-left rounded-lg px-3 py-3 text-sm font-medium">02 · Problema <span class="block text-xs font-normal text-slate-400 mt-0.5">Problematización dialéctica</span></button>
+          <button data-tab="bitacora" class="tab w-full text-left rounded-lg px-3 py-3 text-sm font-medium">03 · Bitácora IA <span class="block text-xs font-normal text-slate-400 mt-0.5">Trazabilidad y ética</span></button>
+          <button data-tab="exportar" class="tab w-full text-left rounded-lg px-3 py-3 text-sm font-medium">04 · Exportar <span class="block text-xs font-normal text-slate-400 mt-0.5">Respaldo e informe</span></button>
+        </nav>
+        <div class="mt-10 pt-5 border-t border-line text-xs text-slate-500 leading-relaxed">
+          <p class="font-semibold text-slate-700 mb-1">Principio rector</p>
+          <p>La IA puede asistir la exploración; la responsabilidad epistemológica y la validación final permanecen en el doctorando.</p>
+        </div>
+      </aside>
+
+      <main class="px-5 sm:px-8 lg:px-12 py-7 max-w-[1250px] w-full">
+        <div class="no-print lg:hidden flex overflow-x-auto border-b border-line mb-7 -mx-5 px-5 gap-1" id="mobileNav">
+          <button data-tab="overview" class="tab whitespace-nowrap px-3 py-3 text-xs font-semibold">Inicio</button>
+          <button data-tab="scopus" class="tab whitespace-nowrap px-3 py-3 text-xs font-semibold">00 Scopus</button>
+          <button data-tab="antecedentes" class="tab whitespace-nowrap px-3 py-3 text-xs font-semibold">01 Antecedentes</button>
+          <button data-tab="problema" class="tab whitespace-nowrap px-3 py-3 text-xs font-semibold">02 Problema</button>
+          <button data-tab="bitacora" class="tab whitespace-nowrap px-3 py-3 text-xs font-semibold">03 Bitácora IA</button>
+          <button data-tab="exportar" class="tab whitespace-nowrap px-3 py-3 text-xs font-semibold">04 Exportar</button>
+        </div>
+
+        <section id="tab-overview" class="tab-panel">
+          <div class="max-w-3xl mb-9"><p class="text-xs uppercase tracking-[.16em] text-accent font-bold">Cuaderno digital</p><h2 class="font-serif text-4xl sm:text-5xl mt-2 leading-tight">De la inquietud al problema de conocimiento.</h2><p class="mt-4 text-slate-600 text-lg leading-relaxed">Un espacio para ordenar antecedentes, hacer visibles las tensiones teóricas y documentar el uso crítico de la inteligencia artificial en tu investigación doctoral.</p></div>
+          <div class="grid md:grid-cols-3 gap-4 mb-9">
+            <button id="manualLoadLiterature" class="text-left bg-accent text-white rounded-xl p-5 soft-shadow border border-accent hover:bg-[#96552f] transition"><span class="text-orange-100 text-sm font-bold">00</span><h3 class="font-semibold mt-7">Cargar literatura CSV</h3><p class="text-sm text-orange-50 mt-2 leading-relaxed">Selecciona manualmente una exportación de Scopus para iniciar el procesamiento.</p><span class="inline-block mt-4 rounded-lg bg-white/15 px-3 py-2 text-xs font-semibold">Seleccionar archivo →</span></button>
+            <button data-tab="antecedentes" class="text-left bg-white rounded-xl p-5 soft-shadow border border-white hover:border-orange-200 transition"><span class="text-accent text-sm font-bold">01</span><h3 class="font-semibold mt-7">Cartografía de antecedentes</h3><p class="text-sm text-slate-500 mt-2 leading-relaxed">Organiza el corpus, los consensos, las controversias y los vacíos.</p></button>
+            <button data-tab="problema" class="text-left bg-white rounded-xl p-5 soft-shadow border border-white hover:border-orange-200 transition"><span class="text-accent text-sm font-bold">02</span><h3 class="font-semibold mt-7">Problematización dialéctica</h3><p class="text-sm text-slate-500 mt-2 leading-relaxed">Distingue el problema social del problema de conocimiento.</p></button>
+            <button data-tab="bitacora" class="text-left bg-white rounded-xl p-5 soft-shadow border border-white hover:border-orange-200 transition"><span class="text-accent text-sm font-bold">03</span><h3 class="font-semibold mt-7">Trazabilidad de IA</h3><p class="text-sm text-slate-500 mt-2 leading-relaxed">Registra decisiones y criterios humanos de validación.</p></button>
+          </div>
+          <div class="bg-ink text-white rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row gap-5 sm:items-center justify-between"><div><p class="text-orange-200 text-xs font-bold uppercase tracking-widest">Estado de avance</p><p class="text-2xl font-serif mt-1">Tu cuaderno está <span id="overviewProgress">0%</span> documentado</p><p class="text-sm text-slate-300 mt-2">Los cambios se guardan automáticamente en este navegador.</p></div><button data-tab="antecedentes" class="rounded-lg bg-orange-500 hover:bg-orange-400 px-5 py-3 text-sm font-semibold whitespace-nowrap">Continuar trabajo →</button></div>
+        </section>
+
+
+        <section id="tab-scopus" class="tab-panel hidden">
+          <div class="mb-8"><p class="text-xs uppercase tracking-[.16em] text-accent font-bold">Módulo 00 · procesamiento bibliográfico</p><h2 class="font-serif text-4xl mt-2">Corpus Scopus</h2><p class="text-slate-600 mt-3 max-w-3xl leading-relaxed">Carga una exportación CSV de Scopus para explorar la producción, depurar registros y convertir hallazgos bibliométricos en insumos para tu estado del arte.</p></div>
+          <div class="bg-white rounded-xl soft-shadow p-5 sm:p-7 mb-6"><div class="flex flex-col md:flex-row md:items-center justify-between gap-4"><div><h3 class="font-semibold">Importar exportación Scopus</h3><p class="text-sm text-slate-500 mt-1">Se reconocen los campos estándar: autores, título, año, fuente, citas, DOI, resumen y palabras clave.</p></div><label id="scopusDrop" class="cursor-pointer border-2 border-dashed border-line hover:border-orange-300 rounded-xl px-5 py-4 text-center min-w-[240px]"><span class="block text-sm font-semibold">Elegir archivo CSV</span><span class="block text-xs text-slate-400 mt-1">o arrástralo aquí</span><input id="scopusFile" type="file" accept=".csv,text/csv" class="hidden"></label></div><p id="scopusStatus" class="text-xs text-slate-400 mt-4">Ningún corpus cargado.</p></div>
+          <div id="scopusWorkspace" class="hidden">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6"><div class="bg-white rounded-xl soft-shadow p-4"><p class="text-xs uppercase tracking-wide text-slate-400">Registros</p><p id="scopusCount" class="text-3xl font-semibold mt-2">0</p></div><div class="bg-white rounded-xl soft-shadow p-4"><p class="text-xs uppercase tracking-wide text-slate-400">Citas acumuladas</p><p id="scopusCitations" class="text-3xl font-semibold mt-2">0</p></div><div class="bg-white rounded-xl soft-shadow p-4"><p class="text-xs uppercase tracking-wide text-slate-400">Años cubiertos</p><p id="scopusYears" class="text-3xl font-semibold mt-2">0</p></div><div class="bg-white rounded-xl soft-shadow p-4"><p class="text-xs uppercase tracking-wide text-slate-400">Con DOI</p><p id="scopusDoi" class="text-3xl font-semibold mt-2">0%</p></div></div>
+            <div class="bg-white rounded-xl soft-shadow p-5 sm:p-7 mb-6"><div class="flex items-center justify-between mb-4"><div><h3 class="font-semibold">Filtros de exploración</h3><p class="text-sm text-slate-500 mt-1">Combina filtros y búsqueda libre en título, resumen, autores y palabras clave.</p></div><button id="clearScopusFilters" class="text-xs text-accent hover:underline">Limpiar filtros</button></div><div class="grid md:grid-cols-4 gap-3"><input id="scopusSearch" class="rounded-lg border border-line px-3 py-2.5 text-sm md:col-span-2" placeholder="Buscar en título, resumen, autores o keywords"><select id="scopusYear" class="rounded-lg border border-line px-3 py-2.5 text-sm"><option value="">Todos los años</option></select><select id="scopusType" class="rounded-lg border border-line px-3 py-2.5 text-sm"><option value="">Todos los tipos</option></select></div><div class="flex flex-wrap items-center justify-between gap-3 mt-4"><p id="scopusFilterSummary" class="text-xs text-slate-500">0 registros visibles</p><button id="exportScopusFiltered" class="bg-ink hover:bg-slateblue text-white rounded-lg px-4 py-2 text-sm font-semibold">Exportar filtrados CSV</button></div></div>
+            <div class="grid xl:grid-cols-[1.15fr_.85fr] gap-6 mb-6"><div class="bg-white rounded-xl soft-shadow p-5 sm:p-7"><div class="flex items-center justify-between mb-4"><div><h3 class="font-semibold">Distribución temporal</h3><p class="text-sm text-slate-500 mt-1">Registros por año de publicación.</p></div></div><div id="scopusYearChart" class="space-y-2"></div></div><div class="bg-white rounded-xl soft-shadow p-5 sm:p-7"><h3 class="font-semibold">Palabras clave más frecuentes</h3><p class="text-sm text-slate-500 mt-1 mb-4">A partir de Author Keywords.</p><div id="scopusKeywordChart" class="space-y-2"></div></div></div>
+            <div class="bg-white rounded-xl soft-shadow p-5 sm:p-7"><div class="flex items-center justify-between mb-4"><div><h3 class="font-semibold">Vista de registros</h3><p class="text-sm text-slate-500 mt-1">La tabla muestra los resultados del filtro actual.</p></div><span id="scopusPageInfo" class="text-xs text-slate-400"></span></div><div class="table-wrap"><table class="w-full text-left text-sm"><thead class="text-[11px] uppercase tracking-wide text-slate-500 bg-paper"><tr><th class="p-3">Año</th><th class="p-3 min-w-[280px]">Título</th><th class="p-3">Autores</th><th class="p-3">Fuente</th><th class="p-3">Citas</th><th class="p-3">DOI</th></tr></thead><tbody id="scopusTable"></tbody></table></div><div class="flex justify-between items-center mt-4"><button id="scopusPrev" class="border border-line rounded-lg px-3 py-2 text-sm disabled:opacity-40">← Anterior</button><button id="scopusNext" class="border border-line rounded-lg px-3 py-2 text-sm disabled:opacity-40">Siguiente →</button></div></div>
+          </div>
+        </section>
+        <section id="tab-antecedentes" class="tab-panel hidden">
+          <div class="mb-8"><p class="text-xs uppercase tracking-[.16em] text-accent font-bold">Módulo 01</p><h2 class="font-serif text-4xl mt-2">Cartografía de antecedentes</h2><p class="text-slate-600 mt-3 max-w-3xl leading-relaxed">Construye una lectura relacional del campo: no solo qué se ha dicho, sino dónde convergen, divergen y dejan preguntas abiertas las investigaciones.</p></div>
+          <div class="bg-white rounded-xl soft-shadow p-5 sm:p-7 mb-6"><div class="flex items-center justify-between mb-5"><h3 class="font-semibold">Ficha del campo</h3><span class="text-xs text-slate-400">Campos de contextualización</span></div><div class="grid md:grid-cols-2 gap-5"><label class="block text-sm font-medium">Área temática<input data-field="area" class="field mt-2 w-full rounded-lg border border-line px-3 py-2.5 text-sm" placeholder="Ej. Justicia ambiental y conflictos territoriales"></label><label class="block text-sm font-medium">Marco temporal<input data-field="periodo" class="field mt-2 w-full rounded-lg border border-line px-3 py-2.5 text-sm" placeholder="Ej. 2015–2025"></label><label class="block text-sm font-medium">Descriptores / palabras clave<textarea data-field="keywords" rows="3" class="field mt-2 w-full rounded-lg border border-line px-3 py-2.5 text-sm" placeholder="Separa los términos por comas"></textarea></label><label class="block text-sm font-medium">Corpus documental o fuentes nodales<textarea data-field="corpus" rows="3" class="field mt-2 w-full rounded-lg border border-line px-3 py-2.5 text-sm" placeholder="Bases de datos, revistas, archivos, autores nodales..."></textarea></label></div></div>
+          <div class="bg-white rounded-xl soft-shadow p-5 sm:p-7"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5"><div><h3 class="font-semibold">Matriz de clasificación analítica</h3><p class="text-sm text-slate-500 mt-1">Cada fila es una posición analítica dentro de tu corpus.</p></div><button id="addAntecedent" class="bg-ink hover:bg-slateblue text-white rounded-lg px-4 py-2.5 text-sm font-semibold">+ Añadir antecedente</button></div><div class="table-wrap"><table class="w-full text-left text-sm"><thead class="text-[11px] uppercase tracking-wide text-slate-500 bg-paper"><tr><th class="p-3 w-40">Autor / año / DOI</th><th class="p-3 w-40">Enfoque</th><th class="p-3 w-52">Consenso principal</th><th class="p-3 w-60">Controversia / tensión</th><th class="p-3 w-60">Vacío explícito</th><th class="p-3 w-12"></th></tr></thead><tbody id="antecedentsBody"></tbody></table></div><div id="antecedentsEmpty" class="text-center py-12 text-sm text-slate-400 hidden">Aún no hay antecedentes. Añade la primera fila para comenzar.</div></div>
+        </section>
+
+        <section id="tab-problema" class="tab-panel hidden">
+          <div class="mb-8"><p class="text-xs uppercase tracking-[.16em] text-accent font-bold">Módulo 02</p><h2 class="font-serif text-4xl mt-2">Problematización dialéctica</h2><p class="text-slate-600 mt-3 max-w-3xl leading-relaxed">Pasa de la descripción de una situación preocupante a una pregunta que produzca conocimiento disciplinar nuevo.</p></div>
+          <div class="grid xl:grid-cols-[1.1fr_.9fr] gap-6"><div class="bg-white rounded-xl soft-shadow p-5 sm:p-7"><div class="flex justify-between items-start mb-6"><div><h3 class="font-semibold">Asistente de formulación</h3><p class="text-sm text-slate-500 mt-1">Redacta, revisa y vuelve a tensar tus argumentos.</p></div><span class="rounded-full bg-orange-50 text-accent text-xs px-3 py-1.5 font-semibold">4 campos guía</span></div><div class="space-y-5"><label class="block"><span class="text-sm font-semibold">1. Fenómeno empírico observable</span><span class="block text-xs text-slate-500 mt-1 mb-2">El problema social o práctico: ¿qué ocurre y dónde se observa?</span><textarea data-field="fenomeno" rows="4" class="field w-full rounded-lg border border-line px-3 py-2.5 text-sm" placeholder="Describe la situación sin convertirla todavía en una pregunta de investigación..."></textarea></label><label class="block"><span class="text-sm font-semibold">2. Tensión teórica o contradicción epistemológica</span><span class="block text-xs text-slate-500 mt-1 mb-2">¿Qué categorías, explicaciones o supuestos entran en fricción?</span><textarea data-field="tension" rows="4" class="field w-full rounded-lg border border-line px-3 py-2.5 text-sm" placeholder="Explicita la tensión entre perspectivas, escalas, actores o conceptos..."></textarea></label><label class="block"><span class="text-sm font-semibold">3. Pregunta doctoral</span><span class="block text-xs text-slate-500 mt-1 mb-2">El problema de conocimiento disciplinar que orientará el estudio.</span><textarea data-field="pregunta" rows="4" class="field w-full rounded-lg border border-line px-3 py-2.5 text-sm" placeholder="¿Cómo, de qué manera, bajo qué condiciones...?"></textarea></label><label class="block"><span class="text-sm font-semibold">4. Justificación del aporte original</span><span class="block text-xs text-slate-500 mt-1 mb-2">Novedad, pertinencia y contribución esperada.</span><textarea data-field="aporte" rows="4" class="field w-full rounded-lg border border-line px-3 py-2.5 text-sm" placeholder="Explica qué permitirá comprender, discutir o replantear tu investigación..."></textarea></label></div></div>
+          <div class="space-y-6"><div class="bg-ink text-white rounded-xl p-5 sm:p-7"><div class="flex items-start gap-3"><div class="text-orange-300 text-xl">◈</div><div><h3 class="font-semibold">Auto-auditoría epistemológica</h3><p class="text-sm text-slate-300 mt-1 leading-relaxed">Marca los criterios que tu formulación ya cumple. La lista no reemplaza la revisión académica: la hace visible.</p></div></div><div class="mt-6 space-y-3" id="checklist"></div><div class="mt-6 pt-4 border-t border-white/15 flex justify-between text-sm"><span class="text-slate-300">Indicador de consistencia</span><strong id="checkProgress">0 / 3</strong></div></div><div class="bg-orange-50 border border-orange-100 rounded-xl p-5 sm:p-6"><h3 class="font-semibold text-slate-800">Diferencia clave</h3><blockquote class="font-serif text-lg leading-relaxed text-slate-700 mt-3">“Un problema social demanda intervención; un problema de conocimiento demanda una explicación, comprensión o reinterpretación que todavía no tenemos.”</blockquote><p class="text-xs text-slate-500 mt-4">Úsalo como criterio de lectura, no como una separación absoluta entre investigación y transformación.</p></div></div></div>
+        </section>
+
+        <section id="tab-bitacora" class="tab-panel hidden">
+          <div class="mb-8"><p class="text-xs uppercase tracking-[.16em] text-accent font-bold">Módulo 03</p><h2 class="font-serif text-4xl mt-2">Bitácora de trazabilidad y gobernanza ética</h2><p class="text-slate-600 mt-3 max-w-3xl leading-relaxed">Registra cómo intervino la IA y, sobre todo, qué decisiones tomó tu juicio como investigador o investigadora.</p></div>
+          <div class="bg-white rounded-xl soft-shadow p-5 sm:p-7"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5"><div><h3 class="font-semibold">Registro auditable de interacciones</h3><p class="text-sm text-slate-500 mt-1">Una entrada por interacción significativa.</p></div><button id="addLog" class="bg-ink hover:bg-slateblue text-white rounded-lg px-4 py-2.5 text-sm font-semibold">+ Añadir interacción</button></div><div id="logsContainer" class="space-y-5"></div><div id="logsEmpty" class="text-center py-12 text-sm text-slate-400 hidden">Todavía no has documentado interacciones con IA.</div></div>
+        </section>
+
+        <section id="tab-exportar" class="tab-panel hidden">
+          <div class="mb-8"><p class="text-xs uppercase tracking-[.16em] text-accent font-bold">Módulo 04</p><h2 class="font-serif text-4xl mt-2">Exportación y persistencia</h2><p class="text-slate-600 mt-3 max-w-3xl leading-relaxed">Respalda tu trabajo o genera un informe listo para integrar a tu protocolo de tesis o apéndice metodológico.</p></div>
+          <div class="grid md:grid-cols-3 gap-4 mb-7"><button id="downloadJson" class="bg-white rounded-xl soft-shadow p-6 text-left hover:border-orange-200 border border-white transition"><span class="text-2xl">↧</span><h3 class="font-semibold mt-4">Exportar JSON</h3><p class="text-sm text-slate-500 mt-2">Respaldo completo para recargar la aplicación.</p></button><button id="downloadMd" class="bg-white rounded-xl soft-shadow p-6 text-left hover:border-orange-200 border border-white transition"><span class="text-2xl">≡</span><h3 class="font-semibold mt-4">Descargar informe .md</h3><p class="text-sm text-slate-500 mt-2">Documento estructurado para tu protocolo.</p></button><button id="printBtn" class="bg-white rounded-xl soft-shadow p-6 text-left hover:border-orange-200 border border-white transition"><span class="text-2xl">⎙</span><h3 class="font-semibold mt-4">Imprimir / PDF</h3><p class="text-sm text-slate-500 mt-2">Versión limpia con estilos de impresión.</p></button></div>
+          <div class="bg-white rounded-xl soft-shadow p-5 sm:p-7 mb-6"><div class="flex items-center justify-between mb-4"><div><h3 class="font-semibold">Recargar un respaldo JSON</h3><p class="text-sm text-slate-500 mt-1">La importación reemplazará el contenido actual.</p></div><label class="cursor-pointer bg-paper hover:bg-line rounded-lg px-4 py-2.5 text-sm font-semibold">Elegir archivo<input id="importJson" type="file" accept="application/json,.json" class="hidden"></label></div><p id="importStatus" class="text-xs text-slate-400">Ningún archivo seleccionado.</p></div><div class="bg-red-50 border border-red-100 rounded-xl p-5 sm:p-7"><h3 class="font-semibold text-red-900">Zona de reinicio</h3><p class="text-sm text-red-800/70 mt-1">Borra todos los datos guardados en este navegador. Esta acción no se puede deshacer.</p><button id="resetBtn" class="mt-4 border border-red-300 text-red-700 hover:bg-red-100 rounded-lg px-4 py-2 text-sm font-semibold">Borrar cuaderno completo</button></div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <div id="printView" class="print-only"></div>
+  <div id="toastArea" class="fixed bottom-5 right-5 z-50 space-y-2 no-print"></div>
+
+<script>
+(() => {
+  const KEY = 'laboratorio-investigacion-v1';
+  const initial = { area:'', periodo:'', keywords:'', corpus:'', scopusRows:[], scopusFile:'', antecedents:[], problem:{fenomeno:'',tension:'',pregunta:'',aporte:''}, checks:[false,false,false], logs:[] };
+  let state = load();
+  function load(){ try { return {...initial,...JSON.parse(localStorage.getItem(KEY)||'{}')}; } catch(e){ return structuredClone(initial); } }
+  function save(){ localStorage.setItem(KEY, JSON.stringify(state)); updateProgress(); document.getElementById('saveState').textContent='Guardado · '+new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}); }
+  function esc(v=''){ return String(v).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+  function toast(msg){ const el=document.createElement('div'); el.className='toast bg-ink text-white text-sm px-4 py-3 rounded-lg shadow-xl'; el.textContent=msg; document.getElementById('toastArea').appendChild(el); setTimeout(()=>el.remove(),3100); }
+  function setTab(tab){ document.querySelectorAll('.tab-panel').forEach(x=>x.classList.toggle('hidden',x.id!=='tab-'+tab)); document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('tab-active',x.dataset.tab===tab)); window.scrollTo({top:0,behavior:'smooth'}); }
+  document.addEventListener('click', e=>{ const b=e.target.closest('[data-tab]'); if(b) setTab(b.dataset.tab); });
+  document.querySelectorAll('.field').forEach(el=>el.addEventListener('input',()=>{ const f=el.dataset.field; if(['fenomeno','tension','pregunta','aporte'].includes(f)) state.problem[f]=el.value; else state[f]=el.value; save(); }));
+  function fillFields(){ document.querySelectorAll('.field').forEach(el=>{const f=el.dataset.field; el.value=['fenomeno','tension','pregunta','aporte'].includes(f)?(state.problem[f]||''):(state[f]||'');}); }
+  const approach=['Cualitativo','Cuantitativo','Mixto','Crítico / Etnográfico'];
+  function renderAntecedents(){ const body=document.getElementById('antecedentsBody'), empty=document.getElementById('antecedentsEmpty'); empty.classList.toggle('hidden',state.antecedents.length!==0); body.innerHTML=state.antecedents.map((r,i)=>`<tr class="border-t border-line align-top"><td class="p-2"><textarea data-a="author" data-i="${i}" rows="4" class="a-field w-full border border-line rounded px-2 py-1.5 text-xs" placeholder="Autor, año, DOI/enlace">${esc(r.author)}</textarea></td><td class="p-2"><select data-a="approach" data-i="${i}" class="a-field w-full border border-line rounded px-2 py-1.5 text-xs">${approach.map(o=>`<option ${r.approach===o?'selected':''}>${o}</option>`).join('')}</select></td><td class="p-2"><textarea data-a="consensus" data-i="${i}" rows="4" class="a-field w-full border border-line rounded px-2 py-1.5 text-xs" placeholder="¿Qué sostiene?">${esc(r.consensus)}</textarea></td><td class="p-2"><textarea data-a="tension" data-i="${i}" rows="4" class="a-field w-full border border-line rounded px-2 py-1.5 text-xs" placeholder="¿Con quién o qué discute?">${esc(r.tension)}</textarea></td><td class="p-2"><textarea data-a="gap" data-i="${i}" rows="4" class="a-field w-full border border-line rounded px-2 py-1.5 text-xs" placeholder="Territorial, metodológico o conceptual">${esc(r.gap)}</textarea></td><td class="p-2 text-center"><button data-remove-a="${i}" title="Eliminar" class="text-slate-400 hover:text-red-600 text-lg">×</button></td></tr>`).join('');
+    body.querySelectorAll('.a-field').forEach(el=>el.addEventListener('input',()=>{state.antecedents[+el.dataset.i][el.dataset.a]=el.value;save();}));
+  }
+  document.getElementById('addAntecedent').addEventListener('click',()=>{state.antecedents.push({author:'',approach:approach[0],consensus:'',tension:'',gap:''});renderAntecedents();save();});
+  document.addEventListener('click',e=>{const b=e.target.closest('[data-remove-a]');if(b){state.antecedents.splice(+b.dataset.removeA,1);renderAntecedents();save();}});
+  const checks=['¿La pregunta evita respuestas binarias (Sí / No)?','¿Distingue entre un problema de gestión / intervención y un vacío cognoscitivo?','¿Evita el determinismo causal unidireccional y reconoce la complejidad contextual?'];
+  function renderChecks(){ document.getElementById('checklist').innerHTML=checks.map((x,i)=>`<label class="flex gap-3 items-start cursor-pointer"><input type="checkbox" data-check="${i}" class="mt-1 accent-orange-500 w-4 h-4" ${state.checks[i]?'checked':''}><span class="text-sm leading-relaxed ${state.checks[i]?'text-white':'text-slate-300'}">${x}</span></label>`).join('');document.querySelectorAll('[data-check]').forEach(x=>x.addEventListener('change',()=>{state.checks[+x.dataset.check]=x.checked;renderChecks();save();})); document.getElementById('checkProgress').textContent=state.checks.filter(Boolean).length+' / 3'; }
+  function renderLogs(){const c=document.getElementById('logsContainer'),e=document.getElementById('logsEmpty');e.classList.toggle('hidden',state.logs.length!==0);c.innerHTML=state.logs.map((r,i)=>`<article class="border border-line rounded-xl p-4 sm:p-5"><div class="flex items-center justify-between mb-4"><span class="text-xs uppercase tracking-wider text-accent font-bold">Interacción ${String(i+1).padStart(2,'0')}</span><button data-remove-log="${i}" class="text-slate-400 hover:text-red-600 text-sm">Eliminar</button></div><div class="grid md:grid-cols-2 gap-4"><label class="text-sm font-medium">Herramienta / modelo<input data-l="tool" data-i="${i}" value="${esc(r.tool)}" class="l-field mt-1.5 w-full border border-line rounded-lg px-3 py-2 text-sm" placeholder="Ej. Claude, Gemini, Manus..."></label><label class="text-sm font-medium">Propósito<select data-l="purpose" data-i="${i}" class="l-field mt-1.5 w-full border border-line rounded-lg px-3 py-2 text-sm"><option ${r.purpose==='Exploración de literatura'?'selected':''}>Exploración de literatura</option><option ${r.purpose==='Confrontación conceptual'?'selected':''}>Confrontación conceptual</option><option ${r.purpose==='Síntesis documental'?'selected':''}>Síntesis documental</option><option ${r.purpose==='Otro'?'selected':''}>Otro</option></select></label><label class="text-sm font-medium md:col-span-2">Prompt exacto suministrado<textarea data-l="prompt" data-i="${i}" rows="3" class="l-field mt-1.5 w-full border border-line rounded-lg px-3 py-2 text-sm" placeholder="Pega aquí el prompt completo...">${esc(r.prompt)}</textarea></label><label class="text-sm font-medium">Hallazgo / resultado obtenido<textarea data-l="result" data-i="${i}" rows="3" class="l-field mt-1.5 w-full border border-line rounded-lg px-3 py-2 text-sm" placeholder="¿Qué produjo la interacción?">${esc(r.result)}</textarea></label><label class="text-sm font-medium">Criterio humano de validación o descarte<textarea data-l="validation" data-i="${i}" rows="3" class="l-field mt-1.5 w-full border border-line rounded-lg px-3 py-2 text-sm" placeholder="¿Qué contrastaste, aceptaste o descartaste y por qué?">${esc(r.validation)}</textarea></label></div></article>`).join('');c.querySelectorAll('.l-field').forEach(el=>el.addEventListener('input',()=>{state.logs[+el.dataset.i][el.dataset.l]=el.value;save();})); }
+  document.getElementById('addLog').addEventListener('click',()=>{state.logs.push({tool:'',purpose:'Exploración de literatura',prompt:'',result:'',validation:''});renderLogs();save();});
+  document.addEventListener('click',e=>{const b=e.target.closest('[data-remove-log]');if(b){state.logs.splice(+b.dataset.removeLog,1);renderLogs();save();}});
+  function progress(){let total=7, done=0;done+=Object.values(state).slice(0,4).filter(v=>String(v).trim()).length;done+=Math.min(state.antecedents.length,1);done+=Object.values(state.problem).filter(v=>v.trim()).length/4;done+=state.checks.filter(Boolean).length/3;done+=Math.min(state.logs.length,1);return Math.round(done/total*100);}
+  function updateProgress(){const p=progress();document.getElementById('completionBadge').textContent=p+'% completo';document.getElementById('overviewProgress').textContent=p+'%';}
+  function download(name,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();URL.revokeObjectURL(a.href);}
+  function reportMd(){let s=`# Bitácora de investigación doctoral\n\n## Módulo 01 · Cartografía de antecedentes\n\n- **Área temática:** ${state.area||'—'}\n- **Marco temporal:** ${state.periodo||'—'}\n- **Descriptores:** ${state.keywords||'—'}\n- **Corpus documental / fuentes nodales:** ${state.corpus||'—'}\n\n### Matriz de clasificación analítica\n\n| Autor / año / DOI | Enfoque | Consenso principal | Controversia / tensión | Vacío explícito |\n|---|---|---|---|---|\n`;state.antecedents.forEach(r=>s+=`| ${md(r.author)} | ${md(r.approach)} | ${md(r.consensus)} | ${md(r.tension)} | ${md(r.gap)} |\n`);s+=`\n## Módulo 02 · Problematización dialéctica\n\n### Fenómeno empírico observable\n${state.problem.fenomeno||'—'}\n\n### Tensión teórica o contradicción epistemológica\n${state.problem.tension||'—'}\n\n### Pregunta doctoral\n${state.problem.pregunta||'—'}\n\n### Justificación del aporte original\n${state.problem.aporte||'—'}\n\n### Auto-auditoría epistemológica\n${checks.map((x,i)=>`- [${state.checks[i]?'x':' '}] ${x}`).join('\n')}\n\n## Módulo 03 · Bitácora de trazabilidad y gobernanza ética\n\n`;state.logs.forEach((r,i)=>s+=`### Interacción ${i+1}\n- **Herramienta / modelo:** ${r.tool||'—'}\n- **Propósito:** ${r.purpose||'—'}\n\n**Prompt exacto**\n\n${r.prompt||'—'}\n\n**Hallazgo / resultado**\n\n${r.result||'—'}\n\n**Criterio humano de validación o descarte**\n\n${r.validation||'—'}\n\n`);s+=`\n---\n_Generado por Laboratorio de Investigación · Metodología I · ${new Date().toLocaleDateString('es-ES')}_\n`;return s;}
+  function md(v){return String(v||'—').replace(/\|/g,'\\|').replace(/\n/g,'<br>');}
+  document.getElementById('downloadJson').addEventListener('click',()=>{download('cuaderno-investigacion.json',JSON.stringify(state,null,2),'application/json');toast('Respaldo JSON descargado');});
+  document.getElementById('downloadMd').addEventListener('click',()=>{download('informe-investigacion.md',reportMd(),'text/markdown;charset=utf-8');toast('Informe Markdown descargado');});
+  document.getElementById('printBtn').addEventListener('click',()=>{renderPrint();window.print();});
+  document.getElementById('importJson').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const x=JSON.parse(reader.result);state={...initial,...x,problem:{...initial.problem,...x.problem}};fillFields();renderAntecedents();renderChecks();renderLogs();save();document.getElementById('importStatus').textContent='Archivo cargado correctamente: '+file.name;toast('Respaldo restaurado');}catch(err){document.getElementById('importStatus').textContent='No se pudo leer el archivo JSON.';toast('Archivo inválido');}};reader.readAsText(file);});
+  document.getElementById('resetBtn').addEventListener('click',()=>{if(confirm('¿Borrar todo el cuaderno? Esta acción no se puede deshacer.')){state=structuredClone(initial);localStorage.removeItem(KEY);fillFields();renderAntecedents();renderChecks();renderLogs();save();toast('Cuaderno reiniciado');}});
+  function renderPrint(){const p=document.getElementById('printView');p.innerHTML=`<h1>Bitácora de investigación doctoral</h1><p>Metodología I · Doctorado en Ciencias Sociales · ${new Date().toLocaleDateString('es-ES')}</p><div class="print-section"><h2>01 · Cartografía de antecedentes</h2><p><strong>Área temática:</strong> ${esc(state.area)||'—'}<br><strong>Marco temporal:</strong> ${esc(state.periodo)||'—'}<br><strong>Descriptores:</strong> ${esc(state.keywords)||'—'}<br><strong>Corpus:</strong> ${esc(state.corpus)||'—'}</p><table class="print-table"><thead><tr><th>Autor / año / DOI</th><th>Enfoque</th><th>Consenso</th><th>Controversia</th><th>Vacío</th></tr></thead><tbody>${state.antecedents.map(r=>`<tr><td>${esc(r.author)||'—'}</td><td>${esc(r.approach)||'—'}</td><td>${esc(r.consensus)||'—'}</td><td>${esc(r.tension)||'—'}</td><td>${esc(r.gap)||'—'}</td></tr>`).join('')}</tbody></table></div><div class="print-section"><h2>02 · Problematización dialéctica</h2><h3>Fenómeno empírico observable</h3><p>${esc(state.problem.fenomeno)||'—'}</p><h3>Tensión teórica</h3><p>${esc(state.problem.tension)||'—'}</p><h3>Pregunta doctoral</h3><p>${esc(state.problem.pregunta)||'—'}</p><h3>Aporte original</h3><p>${esc(state.problem.aporte)||'—'}</p><h3>Auto-auditoría</h3><ul>${checks.map((x,i)=>`<li>[${state.checks[i]?'x':' '}] ${x}</li>`).join('')}</ul></div><div class="print-section"><h2>03 · Bitácora de trazabilidad IA</h2>${state.logs.map((r,i)=>`<h3>Interacción ${i+1} · ${esc(r.tool)||'—'}</h3><p><strong>Propósito:</strong> ${esc(r.purpose)||'—'}</p><p><strong>Prompt:</strong><br>${esc(r.prompt)||'—'}</p><p><strong>Resultado:</strong><br>${esc(r.result)||'—'}</p><p><strong>Validación humana:</strong><br>${esc(r.validation)||'—'}</p>`).join('')}</div>`;}
+
+  // --- Procesamiento Scopus ---
+  let scopusFiltered=[], scopusPage=0; const scopusPageSize=12;
+  function scopusField(r,n){ return r[n] == null ? '' : String(r[n]).trim(); }
+  function normalizeScopus(rows){ return rows.filter(r=>Object.values(r).some(v=>String(v||'').trim())).map(r=>{const x={};Object.keys(r).forEach(k=>x[k.trim().replace(/^\uFEFF/,'')]=r[k]);return x;}); }
+  function loadScopusRows(rows,name){ state.scopusRows=normalizeScopus(rows); state.scopusFile=name||''; scopusPage=0; save(); renderScopus(); toast('Corpus Scopus cargado: '+state.scopusRows.length+' registros'); }
+  function renderScopus(){const rows=state.scopusRows||[], ws=document.getElementById('scopusWorkspace'); ws.classList.toggle('hidden',!rows.length); if(!rows.length)return; const years=[...new Set(rows.map(r=>scopusField(r,'Year')).filter(Boolean))].sort((a,b)=>+b-+a); const types=[...new Set(rows.map(r=>scopusField(r,'Document Type')).filter(Boolean))].sort(); const ys=document.getElementById('scopusYear'),ts=document.getElementById('scopusType'); const oldY=ys.value,oldT=ts.value; ys.innerHTML='<option value="">Todos los años</option>'+years.map(y=>`<option value="${esc(y)}">${esc(y)}</option>`).join('');ts.innerHTML='<option value="">Todos los tipos</option>'+types.map(y=>`<option value="${esc(y)}">${esc(y)}</option>`).join('');ys.value=years.includes(oldY)?oldY:'';ts.value=types.includes(oldT)?oldT:''; document.getElementById('scopusStatus').textContent=`${state.scopusFile||'Corpus Scopus'} · ${rows.length} registros · ${Object.keys(rows[0]).length} campos detectados`; applyScopusFilters(); }
+  function applyScopusFilters(){const rows=state.scopusRows||[], q=document.getElementById('scopusSearch').value.toLowerCase().trim(), y=document.getElementById('scopusYear').value,t=document.getElementById('scopusType').value; scopusFiltered=rows.filter(r=>{const hay=['Title','Abstract','Authors','Author Keywords','Index Keywords','Source title'].map(k=>scopusField(r,k)).join(' ').toLowerCase();return(!q||hay.includes(q))&&(!y||scopusField(r,'Year')===y)&&(!t||scopusField(r,'Document Type')===t)});scopusPage=0;renderScopusAnalytics();}
+  function renderScopusAnalytics(){const rows=scopusFiltered, all=state.scopusRows||[]; const citations=rows.reduce((n,r)=>n+(parseInt(scopusField(r,'Cited by').replace(/[^0-9]/g,''))||0),0), doi=rows.filter(r=>scopusField(r,'DOI')).length, years=new Set(rows.map(r=>scopusField(r,'Year')).filter(Boolean)); document.getElementById('scopusCount').textContent=rows.length.toLocaleString('es-ES');document.getElementById('scopusCitations').textContent=citations.toLocaleString('es-ES');document.getElementById('scopusYears').textContent=years.size;document.getElementById('scopusDoi').textContent=(rows.length?Math.round(doi/rows.length*100):0)+'%';document.getElementById('scopusFilterSummary').textContent=`${rows.length.toLocaleString('es-ES')} de ${all.length.toLocaleString('es-ES')} registros visibles`;const yc={};rows.forEach(r=>{const y=scopusField(r,'Year')||'Sin año';yc[y]=(yc[y]||0)+1});const sortedY=Object.entries(yc).sort((a,b)=>+b[0]-+a[0]);const max=Math.max(1,...sortedY.map(x=>x[1]));document.getElementById('scopusYearChart').innerHTML=sortedY.slice(0,12).map(([y,n])=>`<div class="flex items-center gap-2 text-xs"><span class="w-10 text-slate-500">${esc(y)}</span><div class="h-2.5 bg-orange-100 rounded-full flex-1"><div class="h-full bg-accent rounded-full" style="width:${n/max*100}%"></div></div><strong class="w-8 text-right">${n}</strong></div>`).join('')||'<p class="text-sm text-slate-400">Sin datos.</p>';const kw={};rows.forEach(r=>[scopusField(r,'Author Keywords'),scopusField(r,'Index Keywords')].join(';').split(';').forEach(k=>{k=k.trim().toLowerCase();if(k)kw[k]=(kw[k]||0)+1}));const sk=Object.entries(kw).sort((a,b)=>b[1]-a[1]).slice(0,12),km=Math.max(1,...sk.map(x=>x[1]));document.getElementById('scopusKeywordChart').innerHTML=sk.map(([k,n])=>`<div class="flex items-center gap-2 text-xs"><span class="w-32 truncate text-slate-600" title="${esc(k)}">${esc(k)}</span><div class="h-2.5 bg-slate-100 rounded-full flex-1"><div class="h-full bg-slateblue rounded-full" style="width:${n/km*100}%"></div></div><strong class="w-6 text-right">${n}</strong></div>`).join('')||'<p class="text-sm text-slate-400">Sin palabras clave.</p>';const start=scopusPage*scopusPageSize,page=rows.slice(start,start+scopusPageSize);document.getElementById('scopusTable').innerHTML=page.map(r=>`<tr class="border-t border-line align-top"><td class="p-3 text-slate-500">${esc(scopusField(r,'Year')||'—')}</td><td class="p-3"><a class="font-medium hover:text-accent" target="_blank" href="${esc(scopusField(r,'Link'))}">${esc(scopusField(r,'Title')||'Sin título')}</a><div class="text-xs text-slate-400 mt-1">${esc(scopusField(r,'Document Type'))}</div></td><td class="p-3 text-xs max-w-[220px]">${esc(scopusField(r,'Authors'))}</td><td class="p-3 text-xs">${esc(scopusField(r,'Source title'))}</td><td class="p-3 text-center">${esc(scopusField(r,'Cited by')||'0')}</td><td class="p-3 text-xs">${scopusField(r,'DOI')?`<a target="_blank" class="text-accent hover:underline" href="https://doi.org/${encodeURIComponent(scopusField(r,'DOI'))}">${esc(scopusField(r,'DOI'))}</a>`:'—'}</td></tr>`).join('')||'<tr><td colspan="6" class="p-8 text-center text-slate-400">No hay coincidencias.</td></tr>';document.getElementById('scopusPageInfo').textContent=rows.length?`Página ${scopusPage+1} de ${Math.ceil(rows.length/scopusPageSize)}`:'0 resultados';document.getElementById('scopusPrev').disabled=scopusPage===0;document.getElementById('scopusNext').disabled=start+scopusPageSize>=rows.length;}
+  function scopusCsv(rows){if(!rows.length)return '';const cols=Object.keys(rows[0]);const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';return [cols.map(q).join(','),...rows.map(r=>cols.map(c=>q(r[c])).join(','))].join('\n');}
+  document.getElementById('manualLoadLiterature').addEventListener('click',()=>{setTab('scopus');document.getElementById('scopusFile').click();});
+  function parseCsvNative(text){
+    text=String(text||'').replace(/^\uFEFF/,''); const rows=[]; let row=[], cell='', quoted=false;
+    for(let i=0;i<text.length;i++){const ch=text[i], next=text[i+1]; if(ch==='"'){if(quoted&&next==='"'){cell+='"';i++;}else{quoted=!quoted;}}else if(ch===','&&!quoted){row.push(cell);cell='';}else if((ch==='\n'||ch==='\r')&&!quoted){if(ch==='\r'&&next==='\n')i++;row.push(cell);cell='';if(row.some(v=>String(v).trim()))rows.push(row);row=[];}else{cell+=ch;}}
+    if(cell.length||row.length){row.push(cell);if(row.some(v=>String(v).trim()))rows.push(row);} if(!rows.length)return [];
+    const headers=rows.shift().map((h,i)=>String(h||'').trim().replace(/^\uFEFF/,'')||('Campo '+(i+1)));
+    return rows.map(cols=>Object.fromEntries(headers.map((h,i)=>[h,cols[i]??''])));
+  }
+  function processScopusFile(file){
+    if(!file)return; const status=document.getElementById('scopusStatus'); status.textContent='Leyendo '+file.name+'…';
+    const reader=new FileReader(); reader.onload=()=>{try{const text=reader.result, rows=(window.Papa&&typeof Papa.parse==='function')?Papa.parse(text,{header:true,skipEmptyLines:true}).data:parseCsvNative(text); if(!rows.length)throw new Error('No se encontraron filas'); loadScopusRows(rows,file.name);}catch(err){status.textContent='Error de lectura: '+err.message;toast('No se pudo procesar el CSV');}}; reader.onerror=()=>{status.textContent='Error al leer el archivo.';toast('No se pudo leer el archivo');}; reader.readAsText(file,'UTF-8');
+  }
+  document.getElementById('scopusFile').addEventListener('change',e=>processScopusFile(e.target.files[0]));
+  const drop=document.getElementById('scopusDrop');['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('border-orange-400','bg-orange-50')}));['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('border-orange-400','bg-orange-50')}));drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];processScopusFile(f)});
+  ['scopusSearch','scopusYear','scopusType'].forEach(id=>document.getElementById(id).addEventListener(id==='scopusSearch'?'input':'change',applyScopusFilters)); document.getElementById('clearScopusFilters').addEventListener('click',()=>{document.getElementById('scopusSearch').value='';document.getElementById('scopusYear').value='';document.getElementById('scopusType').value='';applyScopusFilters();});document.getElementById('scopusPrev').addEventListener('click',()=>{if(scopusPage){scopusPage--;renderScopusAnalytics()}});document.getElementById('scopusNext').addEventListener('click',()=>{if((scopusPage+1)*scopusPageSize<scopusFiltered.length){scopusPage++;renderScopusAnalytics()}});document.getElementById('exportScopusFiltered').addEventListener('click',()=>{download('scopus_filtrado.csv',scopusCsv(scopusFiltered),'text/csv;charset=utf-8');toast('CSV filtrado descargado')});
+  fillFields();renderAntecedents();renderChecks();renderLogs();renderScopus();updateProgress();setTab('overview');
+})();
+</script>
 </body>
 </html>
